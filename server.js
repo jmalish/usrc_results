@@ -14,59 +14,58 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// var secrets = require("./secrets.json");
-//
-// var pool = mysql.createPool({
-//     connectionLimit: 100,
-//     host: 'jordanmalish.com',
-//     user: 'usrc_results',
-//     password: secrets.sql,
-//     database: 'usrc_results',
-//     debug: false
-// });
-//
-// function select_from_database(req, res, query) {
-//     pool.getConnection(function(err,connection){
-//         if (err) {
-//             res.json({"code" : 100, "status" : "Error in connection database"});
-//             return;
-//         }
-//
-//         connection.on('error', function(err) {
-//             res.json({"code" : 100, "status" : "Error in connection database"});
-//         });
-//
-//         connection.query(query, function(err,rows){
-//             connection.release();
-//             if(!err) {
-//                 res.json(rows);
-//             }
-//         });
-//     });
-// }
-//
-// function insert_to_database(query) {
-//     pool.getConnection(function(err,connection){
-//         if (err) {
-//             console.error(err);
-//             return;
-//         }
-//
-//         connection.on('error', function(err) {
-//             console.error(err);
-//         });
-//
-//         connection.query(query, function(err,rows){
-//             connection.release();
-//             if(err) console.error(err);
-//         });
-//     });
-// }
+var secrets = require("./secrets.json");
+
+var pool = mysql.createPool({
+    connectionLimit: 100,
+    host: 'jordanmalish.com',
+    user: 'usrc_results',
+    password: secrets.sql,
+    database: 'usrc_results',
+    debug: false
+});
+
+function select_from_database(req, res, query) {
+    pool.getConnection(function(err,connection){
+        if (err) {
+            res.json({"code" : 100, "status" : "Error in connection database"});
+            return;
+        }
+
+        connection.on('error', function(err) {
+            res.json({"code" : 100, "status" : "Error in connection database"});
+        });
+
+        connection.query(query, function(err,rows){
+            connection.release();
+            if(!err) {
+                res.json(rows);
+            }
+        });
+    });
+}
+
+function insert_to_database(query) {
+    pool.getConnection(function(err,connection){
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        connection.on('error', function(err) {
+            console.error(err);
+        });
+
+        connection.query(query, function(err,rows){
+            connection.release();
+            if(err) console.error(err);
+        });
+    });
+}
 
 var sampleCSV = "./eventresult_18350908.csv"; // 50908 = league race | 76441 = official race
 
 fs.readFile(sampleCSV, 'utf8', function (err, data) {
-    // <editor-fold desc="non sql stuff">
     if (err) return console.log(err);
 
     var sessionID = sampleCSV.split('_')[1].split('.')[0];  // TODO: change sampleCSV var to whatever it's called later
@@ -84,7 +83,16 @@ fs.readFile(sampleCSV, 'utf8', function (err, data) {
     var params = resultsArray[0].substring(1);
 
     params = params.split('","'); // get the headers into it's own variable
-    params[params.length - 1] = params[params.length - 1].substring(0, params[params.length - 1].length - 2); // cleaning up trash on end of string
+    params[params.length - 1] = params[params.length - 1].substring(0, params[params.length - 1].length - 2); // cleaning up trash on end of str
+
+    for (var i = 0; i < params.length; i++) { // get rid of annoying characters
+        params[i] = params[i].split("(").join("");
+        params[i] = params[i].split(")").join("");
+        params[i] = params[i].split("%").join("");
+        params[i] = params[i].split("#").join("_Num");
+        params[i] = params[i].split(" ").join("_");
+        params[i] = params[i].split("__").join("_");
+    }
 
     resultsArray.shift(); // get rid of the line that contains all the headers by dropping the first array element
 
@@ -94,23 +102,49 @@ fs.readFile(sampleCSV, 'utf8', function (err, data) {
       var object = {};
 
       result = result.substring(1).split('","');
-      result[result.length - 1] = result[result.length - 1].substring(0, result[result.length - 1].length - 2); // cleaning up trash on end of string
+      result[result.length - 1] = result[result.length - 1].substring(0, result[result.length - 1].length - 2); // cleaning up trash on end of str
 
       for(var i = 0; i < params.length; i++) {
         object[params[i]] = result[i];
       }
 
-      if (object.Car != undefined) objects.push(object); // make sure we don't get any blank lines
+      if (object.Car != undefined) { // make sure we don't get any blank lines
+        objects.push(object);
+
+          // <editor-fold desc="dat query">
+          var query = "INSERT INTO `usrc_results`.`results` " +
+              "(`sessionId`, `finPos`, `carId`, `car`, `carClassId`, `carClass`, `teamId`, `custId`, `name`, `startPos`, `carNum`, " +
+              "`outId`, `out`, `interval`, `lapsLed`, `qualifyTime`, `averageLapTime`, `fastestLapTime`, `fastLapNum`, " +
+              "`lapsComp`, `inc`, `leaguePoints`, `maxFuelFillPerc`, `weightPenaltyKg`) VALUES (" +
+              "'" + sessionID + "', '" +
+              object.Fin_Pos + "', '" +
+              object.Car_ID + "', '" +
+              object.Car + "', '" +
+              object.Car_Class_ID + "', '" +
+              object.Car_Class + "', '" +
+              object.Team_ID + "', '" +
+              object.Cust_ID + "', '" +
+              object.Name + "', '" +
+              object.Start_Pos + "', '" +
+              object.Car_Num + "', '" +
+              object.Out_ID + "', '" +
+              object.Out + "', '" +
+              object.Interval + "', '" +
+              object.Laps_Led + "', '" +
+              object.Qualify_Time + "', '" +
+              object.Average_Lap_Time + "', '" +
+              object.Fastest_Lap_Time + "', '" +
+              object.Fast_Lap_Num + "', '" +
+              object.Laps_Comp + "', '" +
+              object.Inc + "', '" +
+              object.League_Points + "', '" +
+              object.Max_Fuel_Fill + "', '" +
+              object.Weight_Penalty_KG + "');";
+          // </editor-fold>
+
+          insert_to_database(query);
+      }
     });
-    // </editor-fold desc="non sql stuff">
-
-
-
-    // var query = "INSERT INTO `usrc_results`.`testing` (`test_one`, `test_two`) VALUES ('a', 'b');";
-    //
-    // insert_to_database(query);
-
-    console.log();
 });
 
 
