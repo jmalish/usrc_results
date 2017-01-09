@@ -149,11 +149,13 @@ function insert_to_database(query) {
 // });
 // // </editor-fold desc="csv to db">
 
-// <editor-fold desc="Web Pages">
+// <editor-fold desc="Front end Pages">
 app.get('/', function(req, res) {
     res.sendFile('index');
 });
+// </editor-fold desc="Front end pages>
 
+// <editor-fold desc="api pages">
 app.get("/api/results", function(req,res){
     var query = "SELECT * FROM results";
 
@@ -165,7 +167,7 @@ app.get("/api/results/:carId", function(req,res){
 
     select_from_database(req, res, query);
 });
-// </editor-fold>
+// </editor-fold desc="api pages">
 
 
 console.log("Server running on port " + PORT);
