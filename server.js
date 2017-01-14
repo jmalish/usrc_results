@@ -1,10 +1,11 @@
 var http = require('http');
+var fs = require('fs');
 var express = require("express");
 var bodyparser = require('body-parser');
 var formidable = require('formidable');
 var sql = require('./public/js/sql');
 
-var app     = express();
+var app = express();
 var PORT = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
@@ -23,15 +24,28 @@ app.get('/upload', function (req, res) {
 
 app.post('/upload', function (req, res){
     var form = new formidable.IncomingForm();
-
     form.parse(req);
 
     form.on('fileBegin', function (name, file){
-        file.path = __dirname + '/public/uploads/' + file.name; // TODO: check to make sure filename is correct format, should probably use regex
-    });                                                         // eventresult_17576441.csv is correct format
+        var uploadsDir = __dirname + '/public/uploads/';
+
+        if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir); // if directory doesn't exist, create it
+        }
+
+        var fileName = file.name;
+        var validFileName = new RegExp("eventresult_[0-9]{8}.csv");
+        var fileMatches = validFileName.exec(fileName);
+
+        if (fileMatches != null) {
+            file.path = uploadsDir + fileName;
+        } else {
+            console.log('file is not valid'); // TODO: make this do something
+        }
+    });
 
     form.on('file', function (name, file){
-        // this is run when the file is completed downloading... I think
+        // this is run after file is saved
     });
 
     res.send("blah");
