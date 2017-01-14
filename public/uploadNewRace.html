@@ -5,9 +5,9 @@
     <title>USRC Results - Upload New Race</title>
 </head>
 <body>
-    <form method="POST">
-        <input type="file" accept="csv" id="upload-input" name="uploads[]">
-        <input type="submit">
+    <form action="/upload" enctype="multipart/form-data" method="post">
+        <input type="file" name="upload" multiple>
+        <input type="submit" value="Upload">
     </form>
 </body>
 </html>

@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-var secrets = require("./secrets.json");
+var secrets = require("../../secrets.json");
 
 var pool = mysql.createPool({
     connectionLimit: 100,
@@ -50,6 +50,6 @@ function insert_to_database(query) {
 }
 
 module.exports = {
-    selectFromDatabase: select_from_database(req, res, sqlQuery),
-    insertIntoDatabase: insert_to_database(sqlQuery)
+    selectFromDatabase: select_from_database,
+    insertIntoDatabase: insert_to_database
 };

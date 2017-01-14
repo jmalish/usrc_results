@@ -21,8 +21,20 @@ app.get('/upload', function (req, res) {
     res.sendFile('uploadNewRace.html', { root: __dirname + "/public/" });
 });
 
-app.post('/upload', function (req, res) {
+app.post('/upload', function (req, res){
+    var form = new formidable.IncomingForm();
 
+    form.parse(req);
+
+    form.on('fileBegin', function (name, file){
+        file.path = __dirname + '/public/uploads/' + file.name; // TODO: check to make sure filename is correct format, should probably use regex
+    });                                                         // eventresult_17576441.csv is correct format
+
+    form.on('file', function (name, file){
+        // this is run when the file is completed downloading... I think
+    });
+
+    res.send("blah");
 });
 // </editor-fold desc="Front end pages>
 
