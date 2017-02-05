@@ -1,4 +1,4 @@
-var sql = require("mysql");
+var sql = require('./sql');
 
 function calculateCurrency(_resultsArray, _sessionId) {
     console.log(_sessionId);
