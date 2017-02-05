@@ -1,5 +1,6 @@
 var fs = require('fs');
 var sql = require('./sql');
+var currency = require('./currency');
 
 function csv_to_db(csvFile) {
     fs.readFile(csvFile, 'utf8', function (err, data) {
@@ -12,8 +13,7 @@ function csv_to_db(csvFile) {
         var results = data.split("\r\n\n\n\n")[1].split("\n\n")[1];
 
         if ((sessionID.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
-            console.error("File name changed or incorrect session type.");
-            // return;
+            return console.error("File name changed or incorrect session type.");
         }
 
         var startTime = sessionInfo.split(",")[0];
@@ -102,6 +102,8 @@ function csv_to_db(csvFile) {
                 sql.insertIntoDatabase(query);
             }
         });
+
+        currency(resultsArray, sessionID);
     })
 }
 

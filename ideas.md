@@ -27,3 +27,28 @@
 - admin
 - driver
     - allow option to highlight driver name on results pages 
+    
+    
+#### points rules:
+- Everyone starts with $500
+
+- Incidents:  
+      - 0-2:  + $50  
+      - 3-4:  + $00  
+      - 5-8:  - $25  
+      - 9-12: - $50  
+      - 13+:  - $100  
+
+- if money <= 0:  
+      - driver sits out one race, $200 added to account
+
+- Finishing order:  
+      - 1st: + $43  
+      - 2nd: + $42  
+      - 3rd: + $41  
+      - etc
+
+- Other bonuses:  
+      - Pole sitter = + $5
+
+- also need a way for admin to manually add bonus points

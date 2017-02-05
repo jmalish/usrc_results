@@ -4,6 +4,7 @@ var express = require("express");
 var bodyparser = require('body-parser');
 var formidable = require('formidable');
 var sql = require('./public/js/sql');
+var csv_db = require('./public/js/csv-to-db');
 
 var app = express();
 var PORT = 3000;
@@ -45,10 +46,10 @@ app.post('/upload', function (req, res){
     });
 
     form.on('file', function (name, file){
-        // this is run after file is saved
+        csv_db(file);
     });
 
-    res.send("blah");
+    res.send("blah"); // TODO: send something
 });
 // </editor-fold desc="Front end pages>
 
