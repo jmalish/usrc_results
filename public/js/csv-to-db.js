@@ -1,7 +1,8 @@
 var fs = require('fs');
 var sql = require('./sql');
 var http = require('http');
-// var currency = require('./currency');
+var Promise = require('bluebird');
+var currency = require('./currency');
 
 module.exports = function csv_to_db(csvFile) {
     fs.readFile(csvFile.path, 'utf8', function (err, data) {
@@ -9,38 +10,59 @@ module.exports = function csv_to_db(csvFile) {
 
         var sessionID = csvFile.path.split('eventresult_')[1].split('.')[0];
 
-        // <editor-fold desc="checking if results already exist">
+        checkSessionId(sessionID)
+            .then(function (checkSessionId) {
+                if (checkSessionId) {
+                    uploadToDb(data, sessionID)
+                        .then(function (uploadToDb) {
+                            currency(uploadToDb, sessionID);
+                        })
+                } else {
+                    console.error("These results have already been uploaded!");
+                }
+            });
+    }); // end of fs.readFile()
+};
+
+function checkSessionId(sessionId) {  // checks to see if this session exists already
+    return new Promise(function (resolve) {
         var options = {  // TODO: make this not localhost and use the correct port
             host: 'localhost',
             port: 3000,
-            path: "/api/results/" + sessionID,
+            path: "/api/session/" + sessionId,
             method: 'GET'
         };
 
         http.request(options, function (res) {
-            var data = '';  // create blank string
+            var data = '';  // create blank string to hold body
             res.on('data', function (body) {data += body}); // put body into string we created
             res.on('end', function () {
                 var apiResponse = JSON.parse(data);
                 if (apiResponse[0] != undefined) {
-                    return console.error("These results have already been uploaded!");  // TODO: make this run before the rest of the script
+                    // console.error("These results have already been uploaded!");
+                    resolve(false);
+                } else {
+                    resolve(true);
                 }
-            }); // once the response tells us it's done, we can parse it
+            });
         }).end();
-        // <editor-fold desc="checking if results already exist">
+    });
+}
 
+function uploadToDb(_data, _sessionId) {  // parses results and pushes them to the database
+    return new Promise(function (resolve) {
         try {
-            var sessionInfo = data.split("\r\n\n")[0].split("\n")[1];
-            var leagueInfo = data.split("\r\n\n\n\n")[1].split("\n\n")[0].split("\n")[1];
-            var results = data.split("\r\n\n\n\n")[1].split("\n\n")[1];
-        } catch (err) {
-            // handled in the next block
+            var sessionInfo = _data.split("\r\n\n")[0].split("\n")[1];
+            var leagueInfo = _data.split("\r\n\n\n\n")[1].split("\n\n")[0].split("\n")[1];
+            var results = _data.split("\r\n\n\n\n")[1].split("\n\n")[1];
+        } catch (err) {} // error handled in next block
+
+        if ((_sessionId.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
+            console.error("File name changed or incorrect session type.");
+            resolve(false);
         }
 
-        if ((sessionID.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
-            return console.error("File name changed or incorrect session type.");
-        }
-
+        // <editor-fold desc="splits">
         var startTime = sessionInfo.split(",")[0];
         startTime = startTime.substring(1, startTime.length - 1);  // get rid of leading and trailing "
         var track = sessionInfo.split("\",\"")[1];
@@ -49,15 +71,18 @@ module.exports = function csv_to_db(csvFile) {
         var leagueId = leagueInfo.split("\",\"")[1];
         var leagueSeason = leagueInfo.split("\",\"")[2];
         var leagueSeasonId = leagueInfo.split("\",\"")[3];
+        // </editor-fold desc="splits">
 
+        // <editor-fold desc="query">
         var query = "INSERT INTO session_details (`sessionId`, `startTime`, `Track`, `leagueName`, `leagueId`, `leagueSeason`, `leagueSeasonId`) VALUES (" +
-            "\"" + sessionID + "\", \"" +
+            "\"" + _sessionId + "\", \"" +
             startTime + "\", \"" +
             track + "\", \"" +
             leagueName + "\", \"" +
             leagueId + "\", \"" +
             leagueSeason + "\", \"" +
             leagueSeasonId + "\");";
+        // </editor-fold desc="query">
 
         sql.insertIntoDatabase(query);
 
@@ -98,7 +123,7 @@ module.exports = function csv_to_db(csvFile) {
                     "(`sessionId`, `finPos`, `carId`, `car`, `carClassId`, `carClass`, `teamId`, `custId`, `name`, `startPos`, `carNum`, " +
                     "`outId`, `out`, `interval`, `lapsLed`, `qualifyTime`, `averageLapTime`, `fastestLapTime`, `fastLapNum`, " +
                     "`lapsComp`, `inc`, `leaguePoints`, `maxFuelFillPerc`, `weightPenaltyKg`) VALUES (" +
-                    "'" + sessionID + "', '" +
+                    "'" + _sessionId + "', '" +
                     object.Fin_Pos + "', '" +
                     object.Car_ID + "', '" +
                     object.Car + "', '" +
@@ -127,8 +152,7 @@ module.exports = function csv_to_db(csvFile) {
                 sql.insertIntoDatabase(query);
             }
         });
-        console.log("Results uploaded!");
 
-        // currency(resultsArray, sessionID);
-    })
-};
+        resolve(resultsArray);
+    });
+}
