@@ -60,8 +60,8 @@ app.get("/api/results", function(req,res){
     sql.selectFromDatabase(req, res, query);
 });
 
-app.get("/api/results/:carId", function(req,res){
-    var query = "SELECT * FROM results where carId = " + req.params.carId;
+app.get("/api/results/:sessionId", function(req,res){
+    var query = "SELECT * FROM results where sessionId = " + req.params.sessionId;
 
     sql.selectFromDatabase(req, res, query);
 });

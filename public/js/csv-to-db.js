@@ -1,16 +1,41 @@
 var fs = require('fs');
 var sql = require('./sql');
-var currency = require('./currency');
+var http = require('http');
+// var currency = require('./currency');
 
-function csv_to_db(csvFile) {
-    fs.readFile(csvFile, 'utf8', function (err, data) {
+module.exports = function csv_to_db(csvFile) {
+    fs.readFile(csvFile.path, 'utf8', function (err, data) {
         if (err) return console.log(err);
 
-        var sessionID = csvFile.split('_')[1].split('.')[0];
+        var sessionID = csvFile.path.split('eventresult_')[1].split('.')[0];
 
-        var sessionInfo = data.split("\r\n\n")[0].split("\n")[1];
-        var leagueInfo = data.split("\r\n\n\n\n")[1].split("\n\n")[0].split("\n")[1];
-        var results = data.split("\r\n\n\n\n")[1].split("\n\n")[1];
+        // <editor-fold desc="checking if results already exist">
+        var options = {  // TODO: make this not localhost and use the correct port
+            host: 'localhost',
+            port: 3000,
+            path: "/api/results/" + sessionID,
+            method: 'GET'
+        };
+
+        http.request(options, function (res) {
+            var data = '';  // create blank string
+            res.on('data', function (body) {data += body}); // put body into string we created
+            res.on('end', function () {
+                var apiResponse = JSON.parse(data);
+                if (apiResponse[0] != undefined) {
+                    return console.error("These results have already been uploaded!");  // TODO: make this run before the rest of the script
+                }
+            }); // once the response tells us it's done, we can parse it
+        }).end();
+        // <editor-fold desc="checking if results already exist">
+
+        try {
+            var sessionInfo = data.split("\r\n\n")[0].split("\n")[1];
+            var leagueInfo = data.split("\r\n\n\n\n")[1].split("\n\n")[0].split("\n")[1];
+            var results = data.split("\r\n\n\n\n")[1].split("\n\n")[1];
+        } catch (err) {
+            // handled in the next block
+        }
 
         if ((sessionID.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
             return console.error("File name changed or incorrect session type.");
@@ -102,11 +127,8 @@ function csv_to_db(csvFile) {
                 sql.insertIntoDatabase(query);
             }
         });
+        console.log("Results uploaded!");
 
-        currency(resultsArray, sessionID);
+        // currency(resultsArray, sessionID);
     })
-}
-
-module.exports = {
-    csvToDatabase: csv_to_db(csvFile)
 };
