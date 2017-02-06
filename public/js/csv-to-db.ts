@@ -1,14 +1,15 @@
-var fs = require('fs');
-var sql = require('./sql');
-var http = require('http');
-var Promise = require('bluebird');
-var currency = require('./currency');
+import fs = require('fs');
+import http = require('http');
+import Promise = require('bluebird');
+import * as sql from './sql';
+import * as currency from './currency';
+
 
 module.exports = function csv_to_db(csvFile) {
     fs.readFile(csvFile.path, 'utf8', function (err, data) {
         if (err) return console.log(err);
 
-        var sessionID = csvFile.path.split('eventresult_')[1].split('.')[0];
+        let sessionID:string = csvFile.path.split('eventresult_')[1].split('.')[0];
 
         checkSessionId(sessionID)
             .then(function (checkSessionId) {
@@ -26,7 +27,7 @@ module.exports = function csv_to_db(csvFile) {
 
 function checkSessionId(sessionId) {  // checks to see if this session exists already
     return new Promise(function (resolve) {
-        var options = {  // TODO: make this not localhost and use the correct port
+        let options:any = {  // TODO: make this not localhost and use the correct port
             host: 'localhost',
             port: 3000,
             path: "/api/sessions/" + sessionId,
@@ -34,10 +35,10 @@ function checkSessionId(sessionId) {  // checks to see if this session exists al
         };
 
         http.request(options, function (res) {
-            var data = '';  // create blank string to hold body
+            let data:string = '';  // create blank string to hold body
             res.on('data', function (body) {data += body}); // put body into string we created
             res.on('end', function () {
-                var apiResponse = JSON.parse(data);
+                let apiResponse:any = JSON.parse(data);
                 if (apiResponse[0] != undefined) {
                     // console.error("These results have already been uploaded!");
                     resolve(false);
@@ -51,10 +52,12 @@ function checkSessionId(sessionId) {  // checks to see if this session exists al
 
 function uploadToDb(_data, _sessionId) {  // parses results and pushes them to the database
     return new Promise(function (resolve) {
+        let sessionInfo:string, leagueInfo:string, results:string;
+
         try {
-            var sessionInfo = _data.split("\r\n\n")[0].split("\n")[1];
-            var leagueInfo = _data.split("\r\n\n\n\n")[1].split("\n\n")[0].split("\n")[1];
-            var results = _data.split("\r\n\n\n\n")[1].split("\n\n")[1];
+            sessionInfo = _data.split("\r\n\n")[0].split("\n")[1];
+            leagueInfo = _data.split("\r\n\n\n\n")[1].split("\n\n")[0].split("\n")[1];
+            results = _data.split("\r\n\n\n\n")[1].split("\n\n")[1];
         } catch (err) {} // error handled in next block
 
         if ((_sessionId.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
@@ -63,18 +66,18 @@ function uploadToDb(_data, _sessionId) {  // parses results and pushes them to t
         }
 
         // <editor-fold desc="splits">
-        var startTime = sessionInfo.split(",")[0];
+        let startTime:string = sessionInfo.split(",")[0];
         startTime = startTime.substring(1, startTime.length - 1);  // get rid of leading and trailing "
-        var track = sessionInfo.split("\",\"")[1];
-        var leagueName = leagueInfo.split(",")[0];
+        let track:string = sessionInfo.split("\",\"")[1];
+        let leagueName:string = leagueInfo.split(",")[0];
         leagueName = leagueName.substring(1, leagueName.length - 1); // get rid of leading and trailing "
-        var leagueId = leagueInfo.split("\",\"")[1];
-        var leagueSeason = leagueInfo.split("\",\"")[2];
-        var leagueSeasonId = leagueInfo.split("\",\"")[3];
+        let leagueId:string = leagueInfo.split("\",\"")[1];
+        let leagueSeason:string = leagueInfo.split("\",\"")[2];
+        let leagueSeasonId:string = leagueInfo.split("\",\"")[3];
         // </editor-fold desc="splits">
 
         // <editor-fold desc="query">
-        var query = "INSERT INTO session_details (`sessionId`, `startTime`, `Track`, `leagueName`, `leagueId`, `leagueSeason`, `leagueSeasonId`) VALUES (" +
+        let query:string = "INSERT INTO session_details (`sessionId`, `startTime`, `Track`, `leagueName`, `leagueId`, `leagueSeason`, `leagueSeasonId`) VALUES (" +
             "\"" + _sessionId + "\", \"" +
             startTime + "\", \"" +
             track + "\", \"" +
@@ -86,13 +89,13 @@ function uploadToDb(_data, _sessionId) {  // parses results and pushes them to t
 
         sql.insertIntoDatabase(query);
 
-        var resultsArray = results.split("\n"); // split results into individual lines
-        var params = resultsArray[0].substring(1);
+        let resultsArray:any[] = results.split("\n"); // split results into individual lines
+        let params:any = resultsArray[0].substring(1);
 
         params = params.split('","'); // get the headers into it's own variable
         params[params.length - 1] = params[params.length - 1].substring(0, params[params.length - 1].length - 2); // cleaning up trash on end of str
 
-        for (var i = 0; i < params.length; i++) { // get rid of annoying characters
+        for (let i:number = 0; i < params.length; i++) { // get rid of annoying characters
             params[i] = params[i].split("(").join("");
             params[i] = params[i].split(")").join("");
             params[i] = params[i].split("%").join("");
@@ -103,15 +106,15 @@ function uploadToDb(_data, _sessionId) {  // parses results and pushes them to t
 
         resultsArray.shift(); // get rid of the line that contains all the headers by dropping the first array element
 
-        var objects = []; // this will contain the positions
+        let objects:any[] = []; // this will contain the positions
 
         resultsArray.forEach(function (result) {
-            var object = {};
+            let object:any = {};
 
             result = result.substring(1).split('","');
             result[result.length - 1] = result[result.length - 1].substring(0, result[result.length - 1].length - 2); // cleaning up trash on end of str
 
-            for (var i = 0; i < params.length; i++) {
+            for (let i:number = 0; i < params.length; i++) {
                 object[params[i]] = result[i];
             }
 

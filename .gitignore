@@ -11,4 +11,6 @@ _test-output
 _temp
 secrets.json
 test.js
-uploads/*
+uploads/
+typings/
+public/js/*.js
