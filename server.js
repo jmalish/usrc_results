@@ -65,6 +65,12 @@ app.get("/api/session/:sessionId", function(req,res){
 
     sql.selectFromDatabase(req, res, query);
 });
+
+app.get("/api/drivers/:driverId", function(req,res){
+    var query = "SELECT * FROM currency where driverId = " + req.params.driverId;
+
+    sql.selectFromDatabase(req, res, query);
+});
 // </editor-fold desc="api pages">
 
 

@@ -29,7 +29,7 @@ function checkSessionId(sessionId) {  // checks to see if this session exists al
         var options = {  // TODO: make this not localhost and use the correct port
             host: 'localhost',
             port: 3000,
-            path: "/api/session/" + sessionId,
+            path: "/api/sessions/" + sessionId,
             method: 'GET'
         };
 
@@ -153,6 +153,6 @@ function uploadToDb(_data, _sessionId) {  // parses results and pushes them to t
             }
         });
 
-        resolve(resultsArray);
+        resolve(objects);
     });
 }
