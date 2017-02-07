@@ -1,8 +1,8 @@
-var mysql = require('mysql');
+import * as mysql from 'mysql';
 
-var secrets = require("../../secrets.json");
+let secrets:any = require("../../secrets.json");
 
-var pool = mysql.createPool({
+let pool:any = mysql.createPool({
     connectionLimit: 100,
     host: 'jordanmalish.com',
     user: 'usrc_results',
@@ -11,45 +11,47 @@ var pool = mysql.createPool({
     debug: false
 });
 
-function select_from_database(req, res, query) {
-    pool.getConnection(function(err,connection){
-        if (err) {
-            res.json({"code" : 100, "status" : "Error in connection database"});
-            return;
-        }
-
-        connection.on('error', function(err) {
-            res.json({"code" : 100, "status" : "Error in connection database"});
-        });
-
-        connection.query(query, function(err,rows){
-            connection.release();
-            if(!err) {
-                res.json(rows);
+export module sql {
+    export function selectFromDatabase(req: any, res: any, query: string) {
+        pool.getConnection(function (err: any, connection: any) {
+            if (err) {
+                res.json({"code": 100, "status": "Error in connection database"});
+                return;
             }
+
+            connection.on('error', function (err: any) {
+                res.json({"code": 100, "status": "Error in connection database"});
+            });
+
+            connection.query(query, function (err: any, rows: any) {
+                connection.release();
+                if (!err) {
+                    res.json(rows);
+                }
+            });
         });
-    });
+    }
+
+    export function insertIntoDatabase(query: string) {
+        pool.getConnection(function (err: any, connection: any) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            connection.on('error', function (err: any) {
+                console.error(err);
+            });
+
+            connection.query(query, function (err: any) {
+                connection.release();
+                if (err) console.error(err);
+            });
+        });
+    }
 }
 
-function insert_to_database(query) {
-    pool.getConnection(function(err,connection){
-        if (err) {
-            console.error(err);
-            return;
-        }
-
-        connection.on('error', function(err) {
-            console.error(err);
-        });
-
-        connection.query(query, function(err,rows){
-            connection.release();
-            if(err) console.error(err);
-        });
-    });
-}
-
-module.exports = {
-    selectFromDatabase: select_from_database,
-    insertIntoDatabase: insert_to_database
-};
+// (module).exports = {
+//     selectFromDatabase: select_from_database,
+//     insertIntoDatabase: insert_to_database
+// };

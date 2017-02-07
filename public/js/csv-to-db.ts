@@ -1,22 +1,23 @@
-import fs = require('fs');
-import http = require('http');
-import Promise = require('bluebird');
-import * as sql from './sql';
-import * as currency from './currency';
+import * as fs from 'fs';
+import * as http  from 'http';
+import * as Promise from  'bluebird';
+import {sql} from './sql';
+import {currencyCalc} from './currency';
+import calculateCurrency = currencyCalc.calculateCurrency;
 
 
-module.exports = function csv_to_db(csvFile) {
+module.exports = function csv_to_db(csvFile:any) {
     fs.readFile(csvFile.path, 'utf8', function (err, data) {
         if (err) return console.log(err);
 
-        let sessionID:string = csvFile.path.split('eventresult_')[1].split('.')[0];
+        let sessionID:number = csvFile.path.split('eventresult_')[1].split('.')[0];
 
         checkSessionId(sessionID)
-            .then(function (checkSessionId) {
+            .then(function (checkSessionId:any) {
                 if (checkSessionId) {
                     uploadToDb(data, sessionID)
-                        .then(function (uploadToDb) {
-                            currency(uploadToDb, sessionID);
+                        .then(function (uploadToDb:any) {
+                            calculateCurrency(uploadToDb, sessionID);
                         })
                 } else {
                     console.error("These results have already been uploaded!");
@@ -25,7 +26,7 @@ module.exports = function csv_to_db(csvFile) {
     }); // end of fs.readFile()
 };
 
-function checkSessionId(sessionId) {  // checks to see if this session exists already
+function checkSessionId(sessionId:number) {  // checks to see if this session exists already
     return new Promise(function (resolve) {
         let options:any = {  // TODO: make this not localhost and use the correct port
             host: 'localhost',
@@ -34,9 +35,9 @@ function checkSessionId(sessionId) {  // checks to see if this session exists al
             method: 'GET'
         };
 
-        http.request(options, function (res) {
+        http.request(options, function (res:any) {
             let data:string = '';  // create blank string to hold body
-            res.on('data', function (body) {data += body}); // put body into string we created
+            res.on('data', function (body:string) {data += body}); // put body into string we created
             res.on('end', function () {
                 let apiResponse:any = JSON.parse(data);
                 if (apiResponse[0] != undefined) {
@@ -50,7 +51,7 @@ function checkSessionId(sessionId) {  // checks to see if this session exists al
     });
 }
 
-function uploadToDb(_data, _sessionId) {  // parses results and pushes them to the database
+function uploadToDb(_data:any, _sessionId:number) {  // parses results and pushes them to the database
     return new Promise(function (resolve) {
         let sessionInfo:string, leagueInfo:string, results:string;
 
@@ -60,7 +61,8 @@ function uploadToDb(_data, _sessionId) {  // parses results and pushes them to t
             results = _data.split("\r\n\n\n\n")[1].split("\n\n")[1];
         } catch (err) {} // error handled in next block
 
-        if ((_sessionId.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
+        let sessionIdStr:string = _sessionId.toString();
+        if ((sessionIdStr.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
             console.error("File name changed or incorrect session type.");
             resolve(false);
         }
