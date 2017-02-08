@@ -8,6 +8,7 @@ var csv_to_db_1 = require("./public/js/csv-to-db");
 var app = express();
 var PORT = 3000;
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
+    .use('/app', express.static(__dirname + '/app'))
     .use(express.static(__dirname + '/public/'))
     .use(bodyParser.json(null));
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

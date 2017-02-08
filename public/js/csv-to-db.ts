@@ -7,8 +7,8 @@ import calculateCurrency = currencyCalc.calculateCurrency;
 
 export module csvToDb {
     export function csv_to_db(csvFile: any) {
-        fs.readFile(csvFile.path, 'utf8', function (err, data) {
-            if (err) return console.error(err);
+        fs.readFile(csvFile.path, 'utf8', function (err:any, data:any) {
+            if (err) return console.error(err.stack);
 
             let sessionID: number = csvFile.path.split('eventresult_')[1].split('.')[0];
 
@@ -42,8 +42,7 @@ function checkSessionId(sessionId:number) {  // checks to see if this session ex
             res.on('end', function () {
                 let apiResponse:any = JSON.parse(data);
                 if (apiResponse[0] != undefined) {
-                    // console.error("These results have already been uploaded!");
-                    resolve(false);
+                    resolve(false); // These results have already been uploaded
                 } else {
                     resolve(true);
                 }

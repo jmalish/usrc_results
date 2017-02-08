@@ -10,6 +10,7 @@ let app:any = express();
 let PORT:number = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
+    .use('/app', express.static(__dirname + '/app'))
     .use(express.static(__dirname + '/public/'))
     .use(bodyParser.json(null));
 

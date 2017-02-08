@@ -35,17 +35,17 @@ export module sql {
     export function insertIntoDatabase(query: string) {
         pool.getConnection(function (err: any, connection: any) {
             if (err) {
-                console.error(err);
+                console.error(err.stack);
                 return;
             }
 
             connection.on('error', function (err: any) {
-                console.error(err);
+                console.error(err.stack);
             });
 
             connection.query(query, function (err: any) {
                 connection.release();
-                if (err) console.error(err);
+                if (err) console.error(err.stack);
             });
         });
     }
