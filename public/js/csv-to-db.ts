@@ -5,26 +5,27 @@ import {sql} from './sql';
 import {currencyCalc} from './currency';
 import calculateCurrency = currencyCalc.calculateCurrency;
 
+export module csvToDb {
+    export function csv_to_db(csvFile: any) {
+        fs.readFile(csvFile.path, 'utf8', function (err, data) {
+            if (err) return console.error(err);
 
-module.exports = function csv_to_db(csvFile:any) {
-    fs.readFile(csvFile.path, 'utf8', function (err, data) {
-        if (err) return console.log(err);
+            let sessionID: number = csvFile.path.split('eventresult_')[1].split('.')[0];
 
-        let sessionID:number = csvFile.path.split('eventresult_')[1].split('.')[0];
-
-        checkSessionId(sessionID)
-            .then(function (checkSessionId:any) {
-                if (checkSessionId) {
-                    uploadToDb(data, sessionID)
-                        .then(function (uploadToDb:any) {
-                            calculateCurrency(uploadToDb, sessionID);
-                        })
-                } else {
-                    console.error("These results have already been uploaded!");
-                }
-            });
-    }); // end of fs.readFile()
-};
+            checkSessionId(sessionID)
+                .then(function (checkSessionId: any) {
+                    if (checkSessionId) {
+                        uploadToDb(data, sessionID)
+                            .then(function (uploadToDb: any) {
+                                calculateCurrency(uploadToDb, sessionID);
+                            })
+                    } else {
+                        console.error("These results have already been uploaded!");
+                    }
+                });
+        }); // end of fs.readFile()
+    }
+}
 
 function checkSessionId(sessionId:number) {  // checks to see if this session exists already
     return new Promise(function (resolve) {

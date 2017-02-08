@@ -50,8 +50,3 @@ export module sql {
         });
     }
 }
-
-// (module).exports = {
-//     selectFromDatabase: select_from_database,
-//     insertIntoDatabase: insert_to_database
-// };

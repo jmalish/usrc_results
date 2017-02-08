@@ -7,10 +7,10 @@ app/**/*.js
 *.js.map
 e2e/**/*.js
 e2e/**/*.js.map
+public/js/*.js
+server*.js
 _test-output
 _temp
 secrets.json
-test.js
 uploads/
 typings/
-public/js/*.js

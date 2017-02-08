@@ -12,7 +12,7 @@ export module currencyCalc {
                     incidentCalculations(driver, _sessionId);
                 });
             });
-    };
+    }
 }
 
 
