@@ -2,7 +2,8 @@ import * as fs from 'fs';
 import * as express from "express";
 import * as bodyParser from 'body-parser';
 import * as formidable from 'formidable';
-import {sql} from './public/js/sql';
+import * as mysql from 'mysql';
+import {SQL} from './public/js/sql';
 import {csvToDb} from './public/js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
 
@@ -11,6 +12,8 @@ let PORT:number = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use('/app', express.static(__dirname + '/app'))
+    .use('/html', express.static(__dirname + '/app/html'))
+    .use('/css', express.static(__dirname + '/app/css'))
     .use(express.static(__dirname + '/public/'))
     .use(bodyParser.json(null));
 
@@ -58,65 +61,47 @@ app.post('/upload', function (req:any, res:any){
 app.get("/api/results", function(req:any ,res:any){
     let query:string = "SELECT * FROM results";
 
-    sql.selectFromDatabase(req, res, query);
+    SQL.selectFromDatabase(req, res, query);
 });
 
 app.get("/api/session/:sessionId", function(req:any, res:any){
-    let query:string = "SELECT * FROM results where sessionId = " + req.params.sessionId;
+    let query:string = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + ";";
 
-    sql.selectFromDatabase(req, res, query);
+    SQL.selectFromDatabase(req, res, query);
 });
 
-app.get("/api/drivers/:driverId", function(req:any, res:any){
-    let query:string = "SELECT * FROM currency where driverId = " + req.params.driverId;
+app.get("/api/currency", function(req:any, res:any){
+    let query:string = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId;";
 
-    sql.selectFromDatabase(req, res, query);
+    SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/currency/:driverId", function (req: any, res: any) {
+    let query:string = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId where currency.driverId="
+        + mysql.escape(req.params.driverId) + ";";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/drivers", function (req: any, res: any) {
+    let query:string = "SELECT * FROM drivers;";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/driver/:driverId", function(req:any, res:any){
+    let query:string = "SELECT * FROM drivers where driverId = " + mysql.escape(req.params.driverId) + ";";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/sessionDetails/:sessionId", function (req: any, res: any) {
+    let query:string = "SELECT * FROM session_details WHERE sessionId = " + mysql.escape(req.params.sessionId) + ";";
+
+    SQL.selectFromDatabase(req, res, query);
 });
 // </editor-fold desc="api pages">
 
 
 console.log("Server running on port " + PORT);
 app.listen(PORT);
-
-/*
- var pool = mysql.createPool({
- connectionLimit: 100,
- host: 'jordanmalish.com',
- user: 'ppi_internal',
- password: secrets.sql,
- database: 'ppi_internal',
- debug: false
- });
-
- function handle_database(req, res, query) {
- pool.getConnection(function(err,connection){
- if (err) {
- res.json({"code" : 100, "status" : "Error in connection database"});
- return;
- }
-
- connection.on('error', function(err) {
- res.json({"code" : 100, "status" : "Error in connection database"});
- });
-
- connection.query(query, function(err,rows){
- connection.release();
- if(!err) {
- res.json(rows);
- }
- });
- });
- }
-
- app.get("/api/paperStocks", function(req,res){
- var query = "SELECT * FROM paper_stocks";
-
- handle_database(req, res, query);
- });
-
- app.get("/api/paperStocks/:id", function(req,res){
- var query = "SELECT * FROM paper_stocks where id = " + req.params.id;
-
- handle_database(req, res, query);
- });
- */

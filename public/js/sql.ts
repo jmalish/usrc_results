@@ -11,7 +11,7 @@ let pool:any = mysql.createPool({
     debug: false
 });
 
-export module sql {
+export module SQL {
     export function selectFromDatabase(req: any, res: any, query: string) {
         pool.getConnection(function (err: any, connection: any) {
             if (err) {
