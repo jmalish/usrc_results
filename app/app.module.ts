@@ -5,6 +5,7 @@ import {HttpModule} from '@angular/http';
 import { AppComponent }  from './app.component';
 import {CurrencyComponent} from "./currency.component";
 import {routing} from "./app.routing";
+import {UploadComponent} from "./upload.component";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {routing} from "./app.routing";
     ],
     declarations: [
         AppComponent,
-        CurrencyComponent
+        CurrencyComponent,
+        UploadComponent
     ],
     bootstrap:    [ AppComponent ]
 })

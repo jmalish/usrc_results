@@ -78,9 +78,10 @@ app.get('/', function(req:any, res:any) {
     res.sendFile('index.html', { root: __dirname + "/public/" });
 });
 
-app.get('/upload', function (req:any, res:any) {
-    res.sendFile('uploadNewRace.html', { root: __dirname + "/public/" });
-});
+// now handled by angular
+// app.get('/upload', function (req:any, res:any) {
+//     res.sendFile('uploadNewRace.html', { root: __dirname + "/public/" });
+// });
 
 app.post('/upload', function (req:any, res:any){
     let form:any = new formidable.IncomingForm();
@@ -92,6 +93,10 @@ app.post('/upload', function (req:any, res:any){
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir); // if directory doesn't exist, create it
         }
+    });
+
+    form.on('file', function (name:string, file:any){
+        let uploadsDir:string = __dirname + '/public/uploads/';
 
         let fileName:string = file.name;
         let validFileName:any = new RegExp("eventresult_[0-9]{8}.csv");
@@ -99,20 +104,18 @@ app.post('/upload', function (req:any, res:any){
 
         if (fileMatches != null) {
             file.path = uploadsDir + fileName;
-        } else {
-            console.log('file is not valid'); // TODO: make this do something
-        }
-    });
 
-    form.on('file', function (name:string, file:any){
-        csvToDb.csv_to_db(file)
-            .then(function (csv_to_db) {
-                if (csv_to_db.length === 8) {
-                    res.redirect('/currency');
-                } else {
-                    res.send("File already uploaded");
-                }
-            });
+            csvToDb.csv_to_db(file)
+                .then(function (csv_to_db) {
+                    if (csv_to_db.length === 8) {
+                        res.redirect('/currency');
+                    } else {
+                        res.redirect("/upload");
+                    }
+                });
+        } else {
+            console.log('File does not have a valid file name.'); // TODO: make this do something
+        }
     });
 });
 

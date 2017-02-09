@@ -1,7 +1,5 @@
 <h3>Currency</h3>
 
-<p *ngIf="currencies === undefined">Currency[] is empty</p>
-
 <table border="1">
     <tr>
         <th>Driver Name</th>
@@ -11,6 +9,7 @@
     <tr *ngFor="let currency of currencies">
         <td>{{currency.driverName}}</td>
         <td>{{currency.reason}}</td>
-        <td>{{currency.currencyAdjustment}}</td>
+        <td [class.negative]="currency.currencyAdjustment < 0">
+            {{currency.currencyAdjustment | currency:'USD':true}}</td>
     </tr>
 </table>

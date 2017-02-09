@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>USRC Results - Upload New Race</title>
+    <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
     <h1>Upload new race:</h1>
     <p>Make sure not to edit the file in any way before uploading, this includes changing the file name!</p>
     <form action="/upload" enctype="multipart/form-data" method="post">
-        <input type="file" name="upload" accept=".csv">
+        <input class="uploadForm" type="file" name="upload" accept=".csv"><br/>
         <input type="submit" value="Upload">
     </form>
 </body>

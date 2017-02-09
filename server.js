@@ -57,9 +57,10 @@ app.get("/api/sessionDetails/:sessionId", function (req, res) {
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: __dirname + "/public/" });
 });
-app.get('/upload', function (req, res) {
-    res.sendFile('uploadNewRace.html', { root: __dirname + "/public/" });
-});
+// now handled by angular
+// app.get('/upload', function (req:any, res:any) {
+//     res.sendFile('uploadNewRace.html', { root: __dirname + "/public/" });
+// });
 app.post('/upload', function (req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req);
@@ -68,26 +69,27 @@ app.post('/upload', function (req, res) {
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir); // if directory doesn't exist, create it
         }
+    });
+    form.on('file', function (name, file) {
+        var uploadsDir = __dirname + '/public/uploads/';
         var fileName = file.name;
         var validFileName = new RegExp("eventresult_[0-9]{8}.csv");
         var fileMatches = validFileName.exec(fileName);
         if (fileMatches != null) {
             file.path = uploadsDir + fileName;
+            csv_to_db_1.csvToDb.csv_to_db(file)
+                .then(function (csv_to_db) {
+                if (csv_to_db.length === 8) {
+                    res.redirect('/currency');
+                }
+                else {
+                    res.redirect("/upload");
+                }
+            });
         }
         else {
-            console.log('file is not valid'); // TODO: make this do something
+            console.log('File does not have a valid file name.'); // TODO: make this do something
         }
-    });
-    form.on('file', function (name, file) {
-        csv_to_db_1.csvToDb.csv_to_db(file)
-            .then(function (csv_to_db) {
-            if (csv_to_db.length === 8) {
-                res.redirect('/currency');
-            }
-            else {
-                res.send("File already uploaded");
-            }
-        });
     });
 });
 app.get('*', function (req, res) {
