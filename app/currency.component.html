@@ -2,8 +2,15 @@
 
 <p *ngIf="currencies === undefined">Currency[] is empty</p>
 
-<ul>
-    <li *ngFor="let currency of currencies">
-        {{currency.driverName}}
-    </li>
-</ul>
+<table border="1">
+    <tr>
+        <th>Driver Name</th>
+        <th>Penalty/Bonus</th>
+        <th>Penalty Bonus Amount</th>
+    </tr>
+    <tr *ngFor="let currency of currencies" *ngIf="currency.driverId='90201'">
+        <td>{{currency.driverName}}</td>
+        <td>{{currency.reason}}</td>
+        <td>{{currency.currencyAdjustment}}</td>
+    </tr>
+</table>

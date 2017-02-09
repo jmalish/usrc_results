@@ -71,7 +71,7 @@ app.get("/api/session/:sessionId", function(req:any, res:any){
 });
 
 app.get("/api/currency", function(req:any, res:any){
-    let query:string = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId;";
+    let query:string = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId ORDER BY driverId desc;";
 
     SQL.selectFromDatabase(req, res, query);
 });

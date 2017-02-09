@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {Currency} from "./currency";
 
 import 'rxjs/add/operator/map';
 

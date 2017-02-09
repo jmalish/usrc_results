@@ -55,7 +55,7 @@ app.get("/api/session/:sessionId", function (req, res) {
     sql_1.SQL.selectFromDatabase(req, res, query);
 });
 app.get("/api/currency", function (req, res) {
-    var query = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId;";
+    var query = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId ORDER BY driverId desc;";
     sql_1.SQL.selectFromDatabase(req, res, query);
 });
 app.get("/api/currency/:driverId", function (req, res) {
