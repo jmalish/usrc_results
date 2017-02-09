@@ -8,7 +8,7 @@
         <th>Penalty/Bonus</th>
         <th>Penalty Bonus Amount</th>
     </tr>
-    <tr *ngFor="let currency of currencies" *ngIf="currency.driverId='90201'">
+    <tr *ngFor="let currency of currencies">
         <td>{{currency.driverName}}</td>
         <td>{{currency.reason}}</td>
         <td>{{currency.currencyAdjustment}}</td>

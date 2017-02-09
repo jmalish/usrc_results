@@ -4,12 +4,14 @@ import {HttpModule} from '@angular/http';
 
 import { AppComponent }  from './app.component';
 import {CurrencyComponent} from "./currency.component";
+import {routing} from "./app.routing";
 
 
 @NgModule({
     imports:      [
         BrowserModule,
-        HttpModule
+        HttpModule,
+        routing
     ],
     declarations: [
         AppComponent,
