@@ -103,5 +103,10 @@ app.get("/api/sessionDetails/:sessionId", function (req: any, res: any) {
 // </editor-fold desc="api pages">
 
 
+app.get("*", function (req: any, res: any) { // 404 page
+    res.send("404");
+});
+
+
 console.log("Server running on port " + PORT);
 app.listen(PORT);

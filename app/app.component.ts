@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import {CurrencyService} from './services/currency.service';
 
 @Component({
+    moduleId: module.id,
     selector: 'my-app',
-    templateUrl: '/html/app.component.html',
-    styleUrls: ['/css/app.component.css']
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.css']
 })
 export class AppComponent  {
-  name = 'Angular';
 
 }

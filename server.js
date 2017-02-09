@@ -76,6 +76,9 @@ app.get("/api/sessionDetails/:sessionId", function (req, res) {
     sql_1.SQL.selectFromDatabase(req, res, query);
 });
 // </editor-fold desc="api pages">
+app.get("*", function (req, res) {
+    res.send("404");
+});
 console.log("Server running on port " + PORT);
 app.listen(PORT);
 //# sourceMappingURL=server.js.map

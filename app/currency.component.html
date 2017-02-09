@@ -1,0 +1,9 @@
+<h3>Currency</h3>
+
+<p *ngIf="currencies === undefined">Currency[] is empty</p>
+
+<ul>
+    <li *ngFor="let currency of currencies">
+        {{currency.driverName}}
+    </li>
+</ul>
