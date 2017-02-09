@@ -15,6 +15,45 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(express.static(__dirname + '/public/'))
     .use(bodyParser.json(null));
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// <editor-fold desc="api pages">
+app.get("/api/results", function (req, res) {
+    var query = "SELECT * FROM results";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+app.get("/api/session/:sessionId", function (req, res) {
+    var query = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + ";";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+app.get("/api/currency", function (req, res) {
+    var query = "SELECT drivers.driverName, currency.* " +
+        "FROM currency " +
+        "LEFT JOIN drivers " +
+        "ON drivers.driverId = currency.driverId " +
+        "ORDER BY currency.id desc;";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+app.get("/api/currency/:driverId", function (req, res) {
+    var query = "SELECT drivers.driverName, currency.* " +
+        "FROM currency " +
+        "LEFT JOIN drivers " +
+        "ON drivers.driverId = currency.driverId " +
+        "where currency.driverId=" + mysql.escape(req.params.driverId) + ";";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+app.get("/api/drivers", function (req, res) {
+    var query = "SELECT * FROM drivers;";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+app.get("/api/driver/:driverId", function (req, res) {
+    var query = "SELECT * FROM drivers where driverId = " + mysql.escape(req.params.driverId) + ";";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+app.get("/api/sessionDetails/:sessionId", function (req, res) {
+    var query = "SELECT * FROM session_details WHERE sessionId = " + mysql.escape(req.params.sessionId) + ";";
+    sql_1.SQL.selectFromDatabase(req, res, query);
+});
+// </editor-fold desc="api pages">
+// </editor-fold desc="Front end pages>
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: __dirname + "/public/" });
 });
@@ -40,45 +79,21 @@ app.post('/upload', function (req, res) {
         }
     });
     form.on('file', function (name, file) {
-        csv_to_db_1.csvToDb.csv_to_db(file);
+        csv_to_db_1.csvToDb.csv_to_db(file)
+            .then(function (csv_to_db) {
+            if (csv_to_db.length === 8) {
+                res.redirect('/currency');
+            }
+            else {
+                res.send("File already uploaded");
+            }
+        });
     });
-    res.send("blah"); // TODO: send something
+});
+app.get('*', function (req, res) {
+    res.sendFile('index.html', { root: __dirname + "/public/" });
 });
 // </editor-fold desc="Front end pages>
-// <editor-fold desc="api pages">
-app.get("/api/results", function (req, res) {
-    var query = "SELECT * FROM results";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-app.get("/api/session/:sessionId", function (req, res) {
-    var query = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + ";";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-app.get("/api/currency", function (req, res) {
-    var query = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId ORDER BY driverId desc;";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-app.get("/api/currency/:driverId", function (req, res) {
-    var query = "SELECT drivers.driverName, currency.* FROM currency LEFT JOIN drivers ON drivers.driverId = currency.driverId where currency.driverId="
-        + mysql.escape(req.params.driverId) + ";";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-app.get("/api/drivers", function (req, res) {
-    var query = "SELECT * FROM drivers;";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-app.get("/api/driver/:driverId", function (req, res) {
-    var query = "SELECT * FROM drivers where driverId = " + mysql.escape(req.params.driverId) + ";";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-app.get("/api/sessionDetails/:sessionId", function (req, res) {
-    var query = "SELECT * FROM session_details WHERE sessionId = " + mysql.escape(req.params.sessionId) + ";";
-    sql_1.SQL.selectFromDatabase(req, res, query);
-});
-// </editor-fold desc="api pages">
-app.get("*", function (req, res) {
-    res.send("404");
-});
 console.log("Server running on port " + PORT);
 app.listen(PORT);
 //# sourceMappingURL=server.js.map

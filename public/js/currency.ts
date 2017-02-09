@@ -4,15 +4,19 @@ import * as mysql from 'mysql';
 import {SQL} from './sql';
 
 export module currencyCalc {
-   export function calculateCurrency(_drivers: any, _sessionId: number) {
-        newDriverCheck(_drivers, _sessionId)
-            .then(function () {
-                Promise.each(_drivers, function (driver: any) {
-                    finishPosCalculation(driver, _sessionId);
-                    poleSitterBonus(driver, _sessionId);
-                    incidentCalculations(driver, _sessionId);
-                });
+    export function calculateCurrency(_drivers: any, _sessionId: number) {
+        return new Promise(function (resolve) {
+            newDriverCheck(_drivers, _sessionId)
+                .then(function () {
+                    Promise.each(_drivers, function (driver: any) {
+                        finishPosCalculation(driver, _sessionId);
+                        poleSitterBonus(driver, _sessionId);
+                        incidentCalculations(driver, _sessionId);
+                    });
+                }).then(function () {
+                    resolve();
             });
+        });
     }
 }
 
@@ -82,22 +86,7 @@ function finishPosCalculation(_driver:any, _sessionId:number) {
     return new Promise(function (resolve:any) {
         let finishPos:number = _driver.Fin_Pos;
         let winnings:number = 44 - finishPos;
-        let finishReason:string = 'Finished ' + finishPos;
-
-        switch (finishPos % 10) {
-            case 1:
-                finishReason += 'st';
-                break;
-            case 2:
-                finishReason += 'nd';
-                break;
-            case 3:
-                finishReason += 'rd';
-                break;
-            default:
-                finishReason += 'th';
-                break;
-        }
+        let finishReason:string = 'Finished P' + finishPos;
 
         resolve(addCurrencyAdjustment(_sessionId, _driver.Cust_ID, finishReason, winnings));
     })

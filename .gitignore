@@ -12,5 +12,5 @@ server*.js
 _test-output
 _temp
 secrets.json
-uploads/
+public/uploads
 typings/
