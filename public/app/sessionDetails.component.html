@@ -2,7 +2,7 @@
 
 <table border="1">
     <tr *ngFor="let sessionDetail of sessionDetails">
-        <td>{{sessionDetail.sessionId}} - <a [routerLink]="['/results', sessionDetail.sessionId]">Show</a></td>
+        <td><a [routerLink]="['/results', sessionDetail.sessionId]">{{sessionDetail.sessionId}}</a></td>
         <td>{{sessionDetail.Track}}</td>
     </tr>
 </table>

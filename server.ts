@@ -11,9 +11,6 @@ let app:any = express();
 let PORT:number = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
-    .use('/app', express.static(__dirname + '/app'))
-    .use('/html', express.static(__dirname + '/app/html'))
-    .use('/css', express.static(__dirname + '/app/css'))
     .use(express.static(__dirname + '/public/'))
     .use(bodyParser.json(null));
 
@@ -140,7 +137,6 @@ app.get('*', function(req:any, res:any) {
     res.sendFile('index.html', { root: __dirname + "/public/" });
 });
 // </editor-fold desc="Front end pages>
-
 
 console.log("Server running on port " + PORT);
 app.listen(PORT);
