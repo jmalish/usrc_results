@@ -7,7 +7,7 @@ import {SQL} from './public/js/sql';
 import {csvToDb} from './public/js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
 
-let app:any = express();
+let app = express();
 let PORT:number = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
@@ -134,10 +134,15 @@ app.post('/upload', function (req:any, res:any){
 });
 
 app.get('*', function(req:any, res:any) {
-    // console.log("Orig url - " + req.originalUrl); // '/admin/new'
-    // console.log("Base Url - " + req.baseUrl); // '/admin'
-    // console.log("req.path - " + req.path); // '/new'
-    res.sendFile('index.html', { root: __dirname + "/public/" });
+    let requestedPath = req.path;
+
+    if (requestedPath[requestedPath.length-1] === '/') {
+        requestedPath = requestedPath.substring(0, requestedPath.length-1);
+
+        res.redirect(requestedPath);
+    } else {
+        res.sendFile('index.html', { root: __dirname + "/public/" });
+    }
 });
 // </editor-fold desc="Front end pages>
 
