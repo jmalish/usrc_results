@@ -25,7 +25,7 @@ const routes:Routes = [
         component: UploadComponent
     },
     {
-        path: 'sessions',
+        path: 'results',
         component: SessionDetailsComponent
     },
     {

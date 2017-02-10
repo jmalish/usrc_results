@@ -24,7 +24,7 @@ var routes = [
         component: upload_component_1.UploadComponent
     },
     {
-        path: 'sessions',
+        path: 'results',
         component: sessionDetails_component_1.SessionDetailsComponent
     },
     {

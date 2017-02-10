@@ -16,6 +16,7 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 // <editor-fold desc="api pages">
 app.get("/api/sessionDetails", function(req:any ,res:any){
     let query:string = "SELECT * FROM usrc_results.session_details ORDER BY startTime ASC, sessionId ASC;";
@@ -81,12 +82,12 @@ app.get("/api/*", function (req: any, res: any) {
 // </editor-fold desc="api pages">
 
 // </editor-fold desc="Front end pages>
-app.get('/', function(req:any, res:any) {
-    // res.sendFile('index.html', { root: __dirname + "/public/" });
-
-    // This app.get literally does nothing, and I don't know why
-    // I've fixed it by redirecting in angular, but still...
-});
+// app.get('/', function(req:any, res:any) {
+//     // res.sendFile('index.html', { root: __dirname + "/public/" });
+//
+//     // This app.get literally does nothing, and I don't know why
+//     // I've fixed it by redirecting in angular, but still...
+// });
 
 app.post('/upload', function (req:any, res:any){
     let form:any = new formidable.IncomingForm();
@@ -133,7 +134,9 @@ app.post('/upload', function (req:any, res:any){
 });
 
 app.get('*', function(req:any, res:any) {
-    console.log(req.url);
+    // console.log("Orig url - " + req.originalUrl); // '/admin/new'
+    // console.log("Base Url - " + req.baseUrl); // '/admin'
+    // console.log("req.path - " + req.path); // '/new'
     res.sendFile('index.html', { root: __dirname + "/public/" });
 });
 // </editor-fold desc="Front end pages>
