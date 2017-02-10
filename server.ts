@@ -20,14 +20,20 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // <editor-fold desc="api pages">
-app.get("/api/results", function(req:any ,res:any){
-    let query:string = "SELECT * FROM results";
+app.get("/api/sessionDetails", function(req:any ,res:any){
+    let query:string = "SELECT * FROM usrc_results.session_details ORDER BY startTime ASC, sessionId ASC;";
 
     SQL.selectFromDatabase(req, res, query);
 });
 
-app.get("/api/session/:sessionId", function(req:any, res:any){
-    let query:string = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + ";";
+app.get("/api/result/:sessionId", function(req:any, res:any){
+    let query:string = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + "ORDER BY finPos ASC;";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/results", function(req:any, res:any){
+    let query:string = "SELECT * FROM results;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -66,22 +72,22 @@ app.get("/api/driver/:driverId", function(req:any, res:any){
     SQL.selectFromDatabase(req, res, query);
 });
 
-app.get("/api/sessionDetails/:sessionId", function (req: any, res: any) {
+app.get("/api/sessionDetail/:sessionId", function (req: any, res: any) {
     let query:string = "SELECT * FROM session_details WHERE sessionId = " + mysql.escape(req.params.sessionId) + ";";
 
     SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/*", function (req: any, res: any) {
+    res.json({"code": 404, "status": "No endpoint"});
 });
 // </editor-fold desc="api pages">
 
 // </editor-fold desc="Front end pages>
 app.get('/', function(req:any, res:any) {
-    res.sendFile('index.html', { root: __dirname + "/public/" });
+    // res.sendFile('index.html', { root: __dirname + "/public/" });
+    res.redirect('/home');
 });
-
-// now handled by angular
-// app.get('/upload', function (req:any, res:any) {
-//     res.sendFile('uploadNewRace.html', { root: __dirname + "/public/" });
-// });
 
 app.post('/upload', function (req:any, res:any){
     let form:any = new formidable.IncomingForm();
@@ -93,10 +99,6 @@ app.post('/upload', function (req:any, res:any){
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir); // if directory doesn't exist, create it
         }
-    });
-
-    form.on('file', function (name:string, file:any){
-        let uploadsDir:string = __dirname + '/public/uploads/';
 
         let fileName:string = file.name;
         let validFileName:any = new RegExp("eventresult_[0-9]{8}.csv");
@@ -104,13 +106,25 @@ app.post('/upload', function (req:any, res:any){
 
         if (fileMatches != null) {
             file.path = uploadsDir + fileName;
+        }
+    });
 
+    form.on('file', function (name:string, file:any){
+        let csvToDb_Response:any;
+
+        let fileName:string = file.name;
+        let validFileName:any = new RegExp("eventresult_[0-9]{8}.csv");
+        let fileMatches:any = validFileName.exec(fileName);
+
+        if (fileMatches != null) {
             csvToDb.csv_to_db(file)
                 .then(function (csv_to_db) {
-                    if (csv_to_db.length === 8) {
+                    csvToDb_Response = csv_to_db; // this will either be a session ID or a message telling us the session has already been uploaded
+
+                    if (csv_to_db) {
                         res.redirect('/currency');
                     } else {
-                        res.redirect("/upload");
+                        // file already exists
                     }
                 });
         } else {

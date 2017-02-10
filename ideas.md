@@ -3,16 +3,15 @@
 - server parses csv and uploads to database
 
 #### pages:
-- index/home page
-- login page
+- index/home page x
+- login page?
 - upload page (admin)
-- upload confirmation page (admin)
 - points pages
-    - full season
-    - individual race
-    - individual driver stats
-- points setup (admin)
-- api pages as needed
+    - full season (sessionDetails - all) x
+    - individual race (result - one) x
+    - individual driver stats (driver - one)
+    - current points (currency - all)
+- points setup (admin)?
 
 #### upload page:
 - file upload input

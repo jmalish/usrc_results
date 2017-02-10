@@ -11,7 +11,6 @@ import {CurrencyService} from "./currency.service";
 })
 export class CurrencyComponent {
     currencies: Currency[];
-    error: any;
 
     constructor(private currencyService:CurrencyService) {
         this.currencyService.getCurrencies().subscribe(currencies => {
