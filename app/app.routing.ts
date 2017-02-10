@@ -8,6 +8,11 @@ import {ResultsComponent} from "./results.component";
 
 const routes:Routes = [
     {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {
         path: 'home',
         component: HomeComponent
     },
@@ -26,6 +31,10 @@ const routes:Routes = [
     {
         path: 'results/:sessionId',
         component: ResultsComponent
+    },
+    {
+        path: '**',
+        component: HomeComponent
     }
 ];
 

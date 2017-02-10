@@ -86,7 +86,9 @@ app.get("/api/*", function (req: any, res: any) {
 // </editor-fold desc="Front end pages>
 app.get('/', function(req:any, res:any) {
     // res.sendFile('index.html', { root: __dirname + "/public/" });
-    res.redirect('/home');
+
+    // This app.get literally does nothing, and I don't know why
+    // I've fixed it by redirecting in angular, but still...
 });
 
 app.post('/upload', function (req:any, res:any){
@@ -134,6 +136,7 @@ app.post('/upload', function (req:any, res:any){
 });
 
 app.get('*', function(req:any, res:any) {
+    console.log(req.url);
     res.sendFile('index.html', { root: __dirname + "/public/" });
 });
 // </editor-fold desc="Front end pages>
