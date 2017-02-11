@@ -7,7 +7,7 @@ public/app/**/*.js
 *.js.map
 e2e/**/*.js
 e2e/**/*.js.map
-public/js/*.js
+*.js
 server*.js
 _test-output
 _temp
