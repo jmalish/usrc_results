@@ -5,6 +5,7 @@
     <title>USRC Results</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="styles.css">
 
     <!-- Polyfill(s) for older browsers -->
@@ -21,6 +22,18 @@
 </head>
 
 <body>
-    <my-app>Loading AppComponent content here ...</my-app>
+    <my-app>
+        <!--everthing between the two 'my-app's will dissapear, this is just to have something on screen while the app is loading-->
+        <h1>USRC Results</h1>
+
+        <nav>
+            <a routerLink="/home" routerlinkactive="active">Home</a>
+            <a routerLink="/currency" routerLinkActive="active">Currency</a>
+            <a routerLink="/upload" routerLinkActive="active">Upload New Race</a>
+            <a routerLink="/results" routerlinkactive="active">Sessions</a>
+            <a routerLink="/drivers" routerlinkactive="active">Drivers</a>
+            <a routerLink="/standings" routerlinkactive="active">Standings</a>
+        </nav>
+    </my-app>
 </body>
 </html>

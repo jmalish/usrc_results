@@ -7,7 +7,7 @@
         <th>Penalty Bonus Amount</th>
     </tr>
     <tr *ngFor="let currency of currencies">
-        <td>{{currency.driverName}}</td>
+        <td><a [routerLink]="['/drivers', currency.driverId]">{{currency.driverName}}</a></td>
         <td>{{currency.reason}}</td>
         <td [class.negative]="currency.currencyAdjustment < 0">
             {{currency.currencyAdjustment | currency:'USD':true}}</td>

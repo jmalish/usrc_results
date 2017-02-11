@@ -6,6 +6,7 @@ import {SessionDetailsService} from "./sessionDetails.service";
     moduleId: module.id,
     selector: 'sessions',
     templateUrl: 'sessionDetails.component.html',
+    styleUrls: ['sessionDetails.component.css'],
     providers: [SessionDetailsService]
 })
 export class SessionDetailsComponent {
