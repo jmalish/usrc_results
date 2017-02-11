@@ -18,7 +18,7 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
 
 
 // <editor-fold desc="api pages">
-app.get("/api/sessionDetails", function(req:any ,res:any){
+app.get("/api/sessions", function(req:any ,res:any){
     let query:string = "SELECT * FROM usrc_results.session_details ORDER BY startTime ASC, sessionId ASC;";
 
     SQL.selectFromDatabase(req, res, query);
@@ -135,6 +135,8 @@ app.post('/upload', function (req:any, res:any){
 
 app.get('*', function(req:any, res:any) {
     let requestedPath = req.path;
+
+    console.log(req.url);
 
     if (requestedPath[requestedPath.length-1] === '/') {
         requestedPath = requestedPath.substring(0, requestedPath.length-1);

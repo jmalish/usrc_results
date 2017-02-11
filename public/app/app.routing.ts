@@ -5,6 +5,8 @@ import {UploadComponent} from "./upload.component";
 import {HomeComponent} from "./home.component";
 import {SessionDetailsComponent} from "./sessionDetails.component";
 import {ResultsComponent} from "./results.component";
+import {DriversComponent} from "./drivers.component";
+import {DriverComponent} from "./driver.component";
 
 const routes:Routes = [
     {
@@ -31,6 +33,14 @@ const routes:Routes = [
     {
         path: 'results/:sessionId',
         component: ResultsComponent
+    },
+    {
+        path: 'drivers',
+        component: DriversComponent
+    },
+    {
+        path: 'drivers/:driverId',
+        component: DriverComponent
     },
     {
         path: '**',

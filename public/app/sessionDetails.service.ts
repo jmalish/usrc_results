@@ -8,7 +8,7 @@ export class SessionDetailsService {
     constructor (private http: Http) {}
 
     getSessionDetails() {
-        return this.http.get('http://localhost:3000/api/sessionDetails')
+        return this.http.get('http://localhost:3000/api/sessions')
             .map(res => res.json());
     }
 }

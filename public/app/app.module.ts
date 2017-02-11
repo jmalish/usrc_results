@@ -9,7 +9,8 @@ import {UploadComponent} from "./upload.component";
 import {HomeComponent} from "./home.component";
 import {SessionDetailsComponent} from "./sessionDetails.component";
 import {ResultsComponent} from "./results.component";
-
+import {DriversComponent} from "./drivers.component";
+import {DriverComponent} from "./driver.component";
 
 @NgModule({
     imports:      [
@@ -23,7 +24,9 @@ import {ResultsComponent} from "./results.component";
         UploadComponent,
         HomeComponent,
         SessionDetailsComponent,
-        ResultsComponent
+        ResultsComponent,
+        DriversComponent,
+        DriverComponent
     ],
     bootstrap:    [ AppComponent ]
 })

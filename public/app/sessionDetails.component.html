@@ -1,5 +1,7 @@
 <h3>Sessions</h3>
 
+<td><a [routerLink]="['/results/14680355']">test</a></td>
+
 <table border="1">
     <tr *ngFor="let sessionDetail of sessionDetails">
         <td><a [routerLink]="['/results', sessionDetail.sessionId]">{{sessionDetail.sessionId}}</a></td>

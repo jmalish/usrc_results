@@ -16,7 +16,7 @@ var SessionDetailsService = (function () {
         this.http = http;
     }
     SessionDetailsService.prototype.getSessionDetails = function () {
-        return this.http.get('http://localhost:3000/api/sessionDetails')
+        return this.http.get('http://localhost:3000/api/sessions')
             .map(function (res) { return res.json(); });
     };
     return SessionDetailsService;

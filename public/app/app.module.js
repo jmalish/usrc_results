@@ -15,6 +15,8 @@ var upload_component_1 = require("./upload.component");
 var home_component_1 = require("./home.component");
 var sessionDetails_component_1 = require("./sessionDetails.component");
 var results_component_1 = require("./results.component");
+var drivers_component_1 = require("./drivers.component");
+var driver_component_1 = require("./driver.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -33,7 +35,9 @@ AppModule = __decorate([
             upload_component_1.UploadComponent,
             home_component_1.HomeComponent,
             sessionDetails_component_1.SessionDetailsComponent,
-            results_component_1.ResultsComponent
+            results_component_1.ResultsComponent,
+            drivers_component_1.DriversComponent,
+            driver_component_1.DriverComponent
         ],
         bootstrap: [app_component_1.AppComponent]
     })

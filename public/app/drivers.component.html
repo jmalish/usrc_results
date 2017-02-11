@@ -1,0 +1,8 @@
+<h3>Drivers</h3>
+
+<table border="1">
+    <tr *ngFor="let driver of drivers">
+        <td><a [routerLink]="['/drivers', driver.driverId]">{{driver.driverId}}</a></td>
+        <td>{{driver.driverName}}</td>
+    </tr>
+</table>

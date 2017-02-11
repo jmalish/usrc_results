@@ -24,7 +24,7 @@ export module csvToDb {
                                         });
                                 })
                         } else {
-                            resolve("These sessionDetails have already been uploaded!");
+                            resolve("These drivers have already been uploaded!");
                         }
                     });
             }); // end of fs.readFile()
@@ -37,7 +37,7 @@ function checkSessionId(sessionId:number) {  // checks to see if this session ex
         let options:any = {  // TODO: make this not localhost and use the correct port
             host: 'localhost',
             port: 3000,
-            path: "/api/sessionDetails/" + sessionId,
+            path: "/api/drivers/" + sessionId,
             method: 'GET'
         };
 
@@ -47,7 +47,7 @@ function checkSessionId(sessionId:number) {  // checks to see if this session ex
             res.on('end', function () {
                 let apiResponse:any = JSON.parse(data);
                 if (apiResponse[0] != undefined) {
-                    resolve(false); // These sessionDetails have already been uploaded
+                    resolve(false); // These drivers have already been uploaded
                 } else {
                     resolve(true);
                 }
@@ -56,7 +56,7 @@ function checkSessionId(sessionId:number) {  // checks to see if this session ex
     });
 }
 
-function uploadToDb(_data:any, _sessionId:number) {  // parses sessionDetails and pushes them to the database
+function uploadToDb(_data:any, _sessionId:number) {  // parses drivers and pushes them to the database
     return new Promise(function (resolve) {
         let sessionInfo:string, leagueInfo:string, results:string;
 
@@ -95,7 +95,7 @@ function uploadToDb(_data:any, _sessionId:number) {  // parses sessionDetails an
 
             SQL.insertIntoDatabase(query);
 
-            let resultsArray:any[] = results.split("\n"); // split sessionDetails into individual lines
+            let resultsArray:any[] = results.split("\n"); // split drivers into individual lines
             let params:any = resultsArray[0].substring(1);
 
             params = params.split('","'); // get the headers into it's own variable
@@ -127,8 +127,8 @@ function uploadToDb(_data:any, _sessionId:number) {  // parses sessionDetails an
                 if (object.Car != undefined) { // make sure we don't get any blank lines
                     objects.push(object);
 
-                    // <editor-fold desc="sessionDetails query">
-                    query = "INSERT INTO `usrc_results`.`sessionDetails` " +
+                    // <editor-fold desc="drivers query">
+                    query = "INSERT INTO `usrc_results`.`drivers` " +
                         "(`sessionId`, `finPos`, `carId`, `car`, `carClassId`, `carClass`, `teamId`, `custId`, `name`, `startPos`, `carNum`, " +
                         "`outId`, `out`, `interval`, `lapsLed`, `qualifyTime`, `averageLapTime`, `fastestLapTime`, `fastLapNum`, " +
                         "`lapsComp`, `inc`, `leaguePoints`, `maxFuelFillPerc`, `weightPenaltyKg`) VALUES (" +

@@ -5,6 +5,8 @@ var upload_component_1 = require("./upload.component");
 var home_component_1 = require("./home.component");
 var sessionDetails_component_1 = require("./sessionDetails.component");
 var results_component_1 = require("./results.component");
+var drivers_component_1 = require("./drivers.component");
+var driver_component_1 = require("./driver.component");
 var routes = [
     {
         path: '',
@@ -30,6 +32,14 @@ var routes = [
     {
         path: 'results/:sessionId',
         component: results_component_1.ResultsComponent
+    },
+    {
+        path: 'drivers',
+        component: drivers_component_1.DriversComponent
+    },
+    {
+        path: 'drivers/:driverId',
+        component: driver_component_1.DriverComponent
     },
     {
         path: '**',

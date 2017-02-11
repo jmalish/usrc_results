@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {SessionDetails} from "./sessionDetails";
 import {SessionDetailsService} from "./sessionDetails.service";
 
-
 @Component({
     moduleId: module.id,
     selector: 'sessions',

@@ -21,6 +21,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
             this.sessionId = +params['sessionId'];
+            console.log(this.sessionId);
         });
 
         this.getResults();
