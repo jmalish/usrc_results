@@ -6,7 +6,7 @@ import {currencyCalc} from './currency';
 import calculateCurrency = currencyCalc.calculateCurrency;
 
 export module csvToDb {
-    export function csv_to_db(csvFile: any) {
+    export function csv_to_db(csvFile: any, res:any) {
         return new Promise(function (resolve) {
             fs.readFile(csvFile.path, 'utf8', function (err:any, data:any) {
                 if (err) return console.error(err.stack);
@@ -18,10 +18,14 @@ export module csvToDb {
                         if (checkSessionId) {
                             uploadToDb(data, sessionID)
                                 .then(function (uploadToDb: any) {
-                                    calculateCurrency(uploadToDb, sessionID)
-                                        .then(function () {
-                                            resolve(sessionID);
-                                        });
+                                    if (!uploadToDb) {
+                                        resolve(false);
+                                    } else {
+                                        calculateCurrency(uploadToDb, sessionID)
+                                            .then(function () {
+                                                resolve(sessionID);
+                                            });
+                                    }
                                 })
                         } else {
                             resolve("These drivers have already been uploaded!");
@@ -61,13 +65,19 @@ function uploadToDb(_data:any, _sessionId:number) {  // parses drivers and pushe
         let sessionInfo:string, leagueInfo:string, results:string;
 
         try {
-            sessionInfo = _data.split("\r\n\r\n")[0].split("\n")[1];
-            leagueInfo = _data.split("\r\n\r\n\r\n\r\n")[1].split("\r\n\r\n")[0].split("\r\n")[1];
-            results = _data.split("\r\n\r\n\r\n\r\n")[1].split("\r\n\r\n")[1];
+            try {
+                sessionInfo = _data.split("\r\n\r\n")[0].split("\n")[1];
+                leagueInfo = _data.split("\r\n\r\n\r\n\r\n")[1].split("\r\n\r\n")[0].split("\r\n")[1];
+                results = _data.split("\r\n\r\n\r\n\r\n")[1].split("\r\n\r\n")[1];
+            } catch (err) {
+                sessionInfo = _data.split("\r\n\n")[0].split("\n")[1];
+                leagueInfo = _data.split("\r\n\n\n\n")[1].split("\r\n\n")[0].split("\r\n")[1];
+                results = _data.split("\r\n\n\n\n")[1].split("\n\n")[1];
+            }
         } catch (err) {} // error handled in next block
 
         let sessionIdStr:string = _sessionId.toString();
-        if ((sessionIdStr.length != 8) || results == undefined) { // file was either renamed, or is not going to fit our needed format
+        if ((sessionIdStr.length != 8) || results === undefined) { // file was either renamed, or is not going to fit our needed format
             console.error("File name changed or incorrect session type.");
             resolve(false);
         } else {

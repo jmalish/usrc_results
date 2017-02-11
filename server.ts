@@ -126,21 +126,20 @@ app.post('/upload', function (req:any, res:any){
     });
 
     form.on('file', function (name:string, file:any){
-        let csvToDb_Response:any;
+        let csvToDb_Response:string;
 
         let fileName:string = file.name;
         let validFileName:any = new RegExp("eventresult_[0-9]{8}.csv");
         let fileMatches:any = validFileName.exec(fileName);
 
         if (fileMatches != null) {
-            csvToDb.csv_to_db(file)
+            csvToDb.csv_to_db(file, res)
                 .then(function (csv_to_db) {
-                    csvToDb_Response = csv_to_db; // this will either be a session ID or a message telling us the session has already been uploaded
 
                     if (csv_to_db) {
                         res.redirect('/currency');
                     } else {
-                        // file already exists
+                        res.send("File name changed or incorrect session type.");
                     }
                 });
         } else {
