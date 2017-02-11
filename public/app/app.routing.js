@@ -7,6 +7,7 @@ var sessionDetails_component_1 = require("./sessionDetails.component");
 var results_component_1 = require("./results.component");
 var drivers_component_1 = require("./drivers.component");
 var driver_component_1 = require("./driver.component");
+var standings_component_1 = require("./standings.component");
 var routes = [
     {
         path: '',
@@ -40,6 +41,10 @@ var routes = [
     {
         path: 'drivers/:driverId',
         component: driver_component_1.DriverComponent
+    },
+    {
+        path: 'standings',
+        component: standings_component_1.StandingsComponent
     },
     {
         path: '**',

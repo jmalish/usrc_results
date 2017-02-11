@@ -7,6 +7,7 @@ import {SessionDetailsComponent} from "./sessionDetails.component";
 import {ResultsComponent} from "./results.component";
 import {DriversComponent} from "./drivers.component";
 import {DriverComponent} from "./driver.component";
+import {StandingsComponent} from "./standings.component";
 
 const routes:Routes = [
     {
@@ -41,6 +42,10 @@ const routes:Routes = [
     {
         path: 'drivers/:driverId',
         component: DriverComponent
+    },
+    {
+        path: 'standings',
+        component: StandingsComponent
     },
     {
         path: '**',

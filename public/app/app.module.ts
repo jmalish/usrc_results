@@ -11,6 +11,7 @@ import {SessionDetailsComponent} from "./sessionDetails.component";
 import {ResultsComponent} from "./results.component";
 import {DriversComponent} from "./drivers.component";
 import {DriverComponent} from "./driver.component";
+import {StandingsComponent} from "./standings.component";
 
 @NgModule({
     imports:      [
@@ -26,7 +27,8 @@ import {DriverComponent} from "./driver.component";
         SessionDetailsComponent,
         ResultsComponent,
         DriversComponent,
-        DriverComponent
+        DriverComponent,
+        StandingsComponent
     ],
     bootstrap:    [ AppComponent ]
 })

@@ -76,6 +76,16 @@ app.get("/api/sessionDetail/:sessionId", function (req: any, res: any) {
     SQL.selectFromDatabase(req, res, query);
 });
 
+app.get("/api/currentStandings", function (req: any, res: any) {
+    let query:string = "SELECT SUM(currency.currencyAdjustment) as 'driverTotal', drivers.driverName, currency.driverId " +
+        "FROM currency " +
+        "LEFT JOIN drivers ON drivers.driverId = currency.driverId " +
+        "GROUP BY driverId " +
+        "ORDER BY driverTotal desc, driverName desc;";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
 app.get("/api/*", function (req: any, res: any) {
     res.json({"code": 404, "status": "No endpoint"});
 });

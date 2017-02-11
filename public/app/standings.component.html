@@ -1,0 +1,12 @@
+<h3>Standings</h3>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Total</th>
+    </tr>
+    <tr *ngFor="let standing of standings">
+        <td><a [routerLink]="['/drivers', standing.driverId]">{{standing.driverName}}</a></td>
+        <td>{{standing.driverTotal | currency:'USD':true}}</td>
+    </tr>
+</table>

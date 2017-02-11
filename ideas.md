@@ -9,9 +9,10 @@
 - points pages
     - full season (sessionDetails - all) x
     - individual race (result - one) x
-    - individual driver stats (driver - one)
+    - individual driver stats (driver - one) x
     - current points (currency - all)
 - points setup (admin)?
+- custom points adjustment
 
 #### upload page:
 - file upload input

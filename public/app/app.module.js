@@ -17,6 +17,7 @@ var sessionDetails_component_1 = require("./sessionDetails.component");
 var results_component_1 = require("./results.component");
 var drivers_component_1 = require("./drivers.component");
 var driver_component_1 = require("./driver.component");
+var standings_component_1 = require("./standings.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,7 +38,8 @@ AppModule = __decorate([
             sessionDetails_component_1.SessionDetailsComponent,
             results_component_1.ResultsComponent,
             drivers_component_1.DriversComponent,
-            driver_component_1.DriverComponent
+            driver_component_1.DriverComponent,
+            standings_component_1.StandingsComponent
         ],
         bootstrap: [app_component_1.AppComponent]
     })

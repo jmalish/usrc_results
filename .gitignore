@@ -15,3 +15,4 @@ secrets.json
 public/uploads
 typings/
 test.*
+!/public/systemjs.config.js

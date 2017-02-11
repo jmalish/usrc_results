@@ -12,7 +12,7 @@ import {Driver} from "./driver";
 
 })
 export class DriverComponent implements OnInit, OnDestroy {
-    driver: Driver = {driverId: 0, driverName: ''};
+    driver: Driver = {driverId: null, driverName: ''};
     private sub: any;
     driverId: number;
 
