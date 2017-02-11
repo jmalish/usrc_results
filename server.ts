@@ -24,6 +24,12 @@ app.get("/api/sessions", function(req:any ,res:any){
     SQL.selectFromDatabase(req, res, query);
 });
 
+app.get("/api/session/:sessionId", function(req:any ,res:any){
+    let query:string = "SELECT * FROM usrc_results.session_details where sessionId = " + mysql.escape(req.params.sessionId) + ";";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
 app.get("/api/result/:sessionId", function(req:any, res:any){
     let query:string = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + "ORDER BY finPos ASC;";
 

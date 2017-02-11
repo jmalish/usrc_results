@@ -37,7 +37,7 @@ function checkSessionId(sessionId:number) {  // checks to see if this session ex
         let options:any = {  // TODO: make this not localhost and use the correct port
             host: 'localhost',
             port: 3000,
-            path: "/api/drivers/" + sessionId,
+            path: "/api/session/" + sessionId,
             method: 'GET'
         };
 
@@ -128,7 +128,7 @@ function uploadToDb(_data:any, _sessionId:number) {  // parses drivers and pushe
                     objects.push(object);
 
                     // <editor-fold desc="drivers query">
-                    query = "INSERT INTO `usrc_results`.`drivers` " +
+                    query = "INSERT INTO `usrc_results`.`results` " +
                         "(`sessionId`, `finPos`, `carId`, `car`, `carClassId`, `carClass`, `teamId`, `custId`, `name`, `startPos`, `carNum`, " +
                         "`outId`, `out`, `interval`, `lapsLed`, `qualifyTime`, `averageLapTime`, `fastestLapTime`, `fastLapNum`, " +
                         "`lapsComp`, `inc`, `leaguePoints`, `maxFuelFillPerc`, `weightPenaltyKg`) VALUES (" +
@@ -159,9 +159,9 @@ function uploadToDb(_data:any, _sessionId:number) {  // parses drivers and pushe
                     // </editor-fold>
 
                     SQL.insertIntoDatabase(query);
+
                 }
             });
-
             resolve(objects);
         }
     });
