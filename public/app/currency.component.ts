@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Currency} from "./currency";
+import {Currency} from "./myClasses";
 import {CurrencyService} from "./currency.service";
 
 

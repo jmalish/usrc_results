@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Driver} from "./driver";
+import {Driver} from "./myClasses";
 import {DriverService} from "./drivers.service";
 
 

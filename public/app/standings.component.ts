@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {StandingsService} from "./standings.service";
-import {Standings} from "./standings";
+import {Standings} from "./myClasses";
 
 @Component({
     moduleId: module.id,

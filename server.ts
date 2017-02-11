@@ -146,6 +146,9 @@ app.post('/upload', function (req:any, res:any){
 app.get('*', function(req:any, res:any) {
     let requestedPath = req.path;
 
+    console.log(req.url);
+
+
     if (requestedPath[requestedPath.length-1] === '/') {
         requestedPath = requestedPath.substring(0, requestedPath.length-1);
 

@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {DriverService} from "./drivers.service";
-import {Driver} from "./driver";
+import {Driver} from "./myClasses";
 
 
 @Component({

@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {SessionDetails} from "./sessionDetails";
+import {SessionDetails} from "./myClasses";
 import {SessionDetailsService} from "./sessionDetails.service";
 
 @Component({
