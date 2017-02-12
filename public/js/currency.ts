@@ -25,7 +25,7 @@ function newDriverCheck(_drivers:any, _sessionId:number) {
     return new Promise(function (resolve:any) {
         let i:number = 0;
         Promise.each(_drivers, function (driver:any) {
-            let options:any = {  // TODO: make this not localhost and use the correct port
+            let options:any = {
                 host: 'localhost',
                 port: 3000,
                 path: "/api/driver/" + driver.Cust_ID,

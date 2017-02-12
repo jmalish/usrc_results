@@ -164,7 +164,7 @@ app.post('/upload', function (req:any, res:any){
                     }
                 });
         } else {
-            console.log('File does not have a valid file name.'); // TODO: make this do something
+            console.log('File does not have a valid file name.');
         }
     });
 });

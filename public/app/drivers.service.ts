@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 export class DriverService {
     constructor (private http: Http) {}
 
-    private driversUrl = 'http://localhost:3000/api/drivers/'; //TODO: make this the correct url
+    private driversUrl = 'http://localhost:3000/api/drivers/';
 
     getAllDrivers() {
         return this.http.get(this.driversUrl)

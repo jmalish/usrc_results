@@ -38,7 +38,7 @@ export module csvToDb {
 
 function checkSessionId(sessionId:number) {  // checks to see if this session exists already
     return new Promise(function (resolve) {
-        let options:any = {  // TODO: make this not localhost and use the correct port
+        let options:any = {
             host: 'localhost',
             port: 3000,
             path: "/api/session/" + sessionId,
