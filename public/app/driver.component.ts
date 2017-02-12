@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Currency} from "./myClasses";
 import {ActivatedRoute} from "@angular/router";
 import {DriverService} from "./drivers.service";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -12,7 +13,7 @@ import {DriverService} from "./drivers.service";
 
 })
 export class DriverComponent implements OnInit, OnDestroy {
-    currencies: Currency[];
+    currencies: Observable<Currency[]>;
     private sub: any;
     driverId: number;
     driverName: string;
@@ -27,17 +28,15 @@ export class DriverComponent implements OnInit, OnDestroy {
 
         this.driverService.getOneDriver(this.driverId).subscribe(results => {
             this.currencies = results;
-            this.driverName = this.currencies[0].driverName
+            this.driverName = this.currencies[0].driverName;
+
+            this.getTotal();
         });
-
-        this.getTotal();
     }
-
 
     getTotal() {
         for (let i = 0; i < this.currencies.length; i++) {
             this.total += this.currencies[i].currencyAdjustment;
-            console.log(this.total);
         }
     }
 
