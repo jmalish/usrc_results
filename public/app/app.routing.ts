@@ -2,7 +2,7 @@ import {NgModule, ModuleWithProviders} from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {CurrencyComponent} from "./currency.component";
 import {UploadComponent} from "./upload.component";
-import {HomeComponent} from "./home.component";
+import {LatestRaceComponent} from "./latestRace.component";
 import {SessionDetailsComponent} from "./sessionDetails.component";
 import {ResultsComponent} from "./results.component";
 import {DriversComponent} from "./drivers.component";
@@ -17,7 +17,7 @@ const routes:Routes = [
     },
     {
         path: 'home',
-        component: HomeComponent
+        component: LatestRaceComponent
     },
     {
         path: 'currency',
@@ -49,7 +49,7 @@ const routes:Routes = [
     },
     {
         path: '**',
-        component: HomeComponent
+        component: LatestRaceComponent
     }
 ];
 

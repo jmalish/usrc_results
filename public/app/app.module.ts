@@ -6,7 +6,7 @@ import { AppComponent }  from './app.component';
 import {CurrencyComponent} from "./currency.component";
 import {routing} from "./app.routing";
 import {UploadComponent} from "./upload.component";
-import {HomeComponent} from "./home.component";
+import {LatestRaceComponent} from "./latestRace.component";
 import {SessionDetailsComponent} from "./sessionDetails.component";
 import {ResultsComponent} from "./results.component";
 import {DriversComponent} from "./drivers.component";
@@ -23,7 +23,7 @@ import {StandingsComponent} from "./standings.component";
         AppComponent,
         CurrencyComponent,
         UploadComponent,
-        HomeComponent,
+        LatestRaceComponent,
         SessionDetailsComponent,
         ResultsComponent,
         DriversComponent,

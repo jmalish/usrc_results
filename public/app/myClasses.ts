@@ -38,6 +38,7 @@ export class Result {
     public leaguePoints: number;
     public maxFuelFillPerc: number;
     public weightPenaltyKg: number;
+    public totalCurrency: number;
 }
 
 export class SessionDetails {

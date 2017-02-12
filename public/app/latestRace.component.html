@@ -1,0 +1,24 @@
+<h1>Latest Race</h1>
+
+<table>
+    <tr>
+        <th>Pos</th>
+        <th>Car #</th>
+        <th>Driver</th>
+        <th>Start<br/>Pos.</th>
+        <th>Interval</th>
+        <th>Inc</th>
+        <th>This Race Winnings</th>
+        <th>Total<br/>Funds</th>
+    </tr>
+    <tr *ngFor="let result of results">
+        <td>{{result.finPos}}</td>
+        <td>{{result.carNum}}</td>
+        <td>{{result.name}}</td>
+        <td>{{result.startPos}}</td>
+        <td>{{result.interval}}</td>
+        <td>{{result.inc}}</td>
+        <td>Race winnings goes here</td>
+        <td>Total goes here</td>
+    </tr>
+</table>

@@ -24,6 +24,12 @@ app.get("/api/sessions", function(req:any ,res:any){
     SQL.selectFromDatabase(req, res, query);
 });
 
+app.get("/api/session/latest", function(req:any ,res:any){
+    let query:string = "SELECT * FROM results where sessionId = (SELECT MAX(sessionId) from results) ORDER BY finPos ASC;";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
 app.get("/api/session/:sessionId", function(req:any ,res:any){
     let query:string = "SELECT * FROM usrc_results.session_details where sessionId = " + mysql.escape(req.params.sessionId) + ";";
 
@@ -60,6 +66,14 @@ app.get("/api/currency/:driverId", function (req: any, res: any) {
         "LEFT JOIN drivers " +
         "ON drivers.driverId = currency.driverId " +
         "where currency.driverId=" + mysql.escape(req.params.driverId) + ";";
+
+    SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/currencyEarned/:driverId/:sessionId", function (req: any, res: any) {
+    let query:string =
+        "SELECT SUM(currencyAdjustment) as earned FROM usrc_results.currency WHERE driverId = "
+        + mysql.escape(req.params.driverId) + "AND sessionId = " + mysql.escape(req.params.sessionId) + ";";
 
     SQL.selectFromDatabase(req, res, query);
 });

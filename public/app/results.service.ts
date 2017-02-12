@@ -11,4 +11,9 @@ export class ResultsService {
         return this.http.get('http://localhost:3000/api/result/' + _sessionId)
             .map(res => res.json());
     }
+
+    getLatestResult() {
+        return this.http.get('http://localhost:3000/api/session/latest')
+            .map(res => res.json());
+    }
 }
