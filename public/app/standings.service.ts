@@ -8,12 +8,12 @@ export class StandingsService {
     constructor (private http: Http) {}
 
     getCurrentStandings() {
-        return this.http.get("http://localhost:3000/api/currentStandings")
+        return this.http.get("http://localhost:80/api/currentStandings")
             .map(res => res.json());
     }
 
     getOneDriver(_driverId) {
-        return this.http.get("http://localhost:3000/api/driver/" + _driverId)
+        return this.http.get("http://localhost:80/api/driver/" + _driverId)
             .map(res => res.json());
     }
 }

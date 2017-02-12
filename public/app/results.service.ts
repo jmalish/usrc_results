@@ -8,12 +8,12 @@ export class ResultsService {
     constructor (private http: Http) {}
 
     getOneResult(_sessionId) {
-        return this.http.get('http://localhost:3000/api/result/' + _sessionId)
+        return this.http.get('http://localhost:80/api/result/' + _sessionId)
             .map(res => res.json());
     }
 
     getLatestResult() {
-        return this.http.get('http://localhost:3000/api/session/latest')
+        return this.http.get('http://localhost:80/api/session/latest')
             .map(res => res.json());
     }
 }
