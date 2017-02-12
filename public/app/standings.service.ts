@@ -7,13 +7,15 @@ import 'rxjs/add/operator/map';
 export class StandingsService {
     constructor (private http: Http) {}
 
+    private apiUrl:string = "jordanmalish.com/api/";
+
     getCurrentStandings() {
-        return this.http.get("http://localhost:80/api/currentStandings")
+        return this.http.get(this.apiUrl + "currentStandings")
             .map(res => res.json());
     }
 
     getOneDriver(_driverId) {
-        return this.http.get("http://localhost:80/api/driver/" + _driverId)
+        return this.http.get(this.apiUrl + "driver/" + _driverId)
             .map(res => res.json());
     }
 }

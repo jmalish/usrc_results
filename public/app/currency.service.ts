@@ -7,10 +7,10 @@ import 'rxjs/add/operator/map';
 export class CurrencyService {
     constructor (private http: Http) {}
 
-    private currencyUrl = 'http://localhost:80/api/currency';
+    private apiUrl:string = "jordanmalish.com/api/";
 
     getCurrencies() {
-        return this.http.get(this.currencyUrl)
+        return this.http.get(this.apiUrl + "currency")
             .map(res => res.json());
     }
 }
