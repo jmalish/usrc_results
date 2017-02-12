@@ -13,7 +13,7 @@ import {Observable} from "rxjs";
 
 })
 export class DriverComponent implements OnInit, OnDestroy {
-    currencies: Observable<Currency[]>;
+    currencies: Currency[];
     private sub: any;
     driverId: number;
     driverName: string;
@@ -33,6 +33,7 @@ export class DriverComponent implements OnInit, OnDestroy {
             this.getTotal();
         });
     }
+
 
     getTotal() {
         for (let i = 0; i < this.currencies.length; i++) {
