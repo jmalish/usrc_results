@@ -12,6 +12,7 @@ let PORT:number = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(express.static(__dirname + '/public/'))
+    .use(bodyParser.urlencoded({extended: false}))
     .use(bodyParser.json(null));
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,8 +148,6 @@ app.post('/upload', function (req:any, res:any){
     });
 
     form.on('file', function (name:string, file:any){
-        let csvToDb_Response:string;
-
         let fileName:string = file.name;
         let validFileName:any = new RegExp("eventresult_[0-9]{8}.csv");
         let fileMatches:any = validFileName.exec(fileName);
@@ -169,11 +168,14 @@ app.post('/upload', function (req:any, res:any){
     });
 });
 
+app.post('/bonus', function (req:any, res:any){
+    console.log(req.body.adjustmentAmt);
+
+    res.redirect('/bonus');
+});
+
 app.get('*', function(req:any, res:any) {
     let requestedPath = req.path;
-
-    console.log(req.url);
-
 
     if (requestedPath[requestedPath.length-1] === '/') {
         requestedPath = requestedPath.substring(0, requestedPath.length-1);

@@ -12,6 +12,7 @@ import {ResultsComponent} from "./results.component";
 import {DriversComponent} from "./drivers.component";
 import {DriverComponent} from "./driver.component";
 import {StandingsComponent} from "./standings.component";
+import {BonusComponent} from "./bonus.component";
 
 @NgModule({
     imports:      [
@@ -28,7 +29,8 @@ import {StandingsComponent} from "./standings.component";
         ResultsComponent,
         DriversComponent,
         DriverComponent,
-        StandingsComponent
+        StandingsComponent,
+        BonusComponent
     ],
     bootstrap:    [ AppComponent ]
 })

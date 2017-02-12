@@ -8,6 +8,7 @@ import {ResultsComponent} from "./results.component";
 import {DriversComponent} from "./drivers.component";
 import {DriverComponent} from "./driver.component";
 import {StandingsComponent} from "./standings.component";
+import {BonusComponent} from "./bonus.component";
 
 const routes:Routes = [
     {
@@ -26,6 +27,10 @@ const routes:Routes = [
     {
         path: 'upload',
         component: UploadComponent
+    },
+    {
+        path: 'bonus',
+        component: BonusComponent
     },
     {
         path: 'results',

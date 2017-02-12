@@ -1,0 +1,20 @@
+<h3>Add Bonus Points</h3>
+
+<form action="/bonus" enctype="multipart/form-data" method="post">
+    <div>
+        <label for="driverName">Driver Name:</label>
+        <select id="driverName" name="driverName" required>
+            <option *ngFor="let driver of drivers" value="{{driver.driverId}}">{{driver.driverName}}</option>
+        </select>
+    </div>
+    <div>
+        <label for="reason">Reason:</label>
+        <input id="reason" name="reason" type="text" required>
+    </div>
+    <div>
+        <label for="adjustmentAmt">Currency adjustment:</label>
+        <input id="adjustmentAmt" name="adjustmentAmt" type="number" value="0" required>
+    </div>
+    <input type="number" value="1" hidden>
+    <input type="submit" value="Submit">
+</form>

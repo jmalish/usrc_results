@@ -10,5 +10,3 @@ import {Component} from "@angular/core";
 export class UploadComponent {
     fileName: string = '';
 }
-
-
