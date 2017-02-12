@@ -1,4 +1,15 @@
-.sessions div {
+table.results,.results th, .results td, .results tr {
     border: solid 1px black;
+}
 
+.results th {
+    padding:5px;
+}
+
+.results td {
+    padding: 5px;
+}
+
+.results tr:nth-child(odd){
+    background-color: #f2f2f2;
 }

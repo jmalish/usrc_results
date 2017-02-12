@@ -41,7 +41,7 @@ function newDriverCheck(_drivers:any, _sessionId:number) {
                     let apiResponse:any = JSON.parse(data);
                     if (apiResponse[0] === undefined) {
                         addDriver(driver.Cust_ID, driver.Name);
-                        addCurrencyAdjustment(_sessionId, driver.Cust_ID, "New driver signing bonus", 500);
+                        addCurrencyAdjustment(0, driver.Cust_ID, "New driver signing bonus", 500);
                     }
 
                     i++;

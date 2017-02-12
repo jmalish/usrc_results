@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Result} from "./myClasses";
+import {LatestRace} from "./myClasses";
 import {ResultsService} from "./results.service";
 
 @Component({
@@ -10,11 +10,11 @@ import {ResultsService} from "./results.service";
     providers: [ResultsService]
 })
 export class LatestRaceComponent {
-    results: Result[];
+    results: LatestRace[];
 
     constructor(private resultsService:ResultsService) {
-        this.resultsService.getLatestResult().subscribe(results => {
-            this.results = results;
+        this.resultsService.getLatestResult().subscribe(latestRace => {
+            this.results = latestRace;
         });
     }
 }

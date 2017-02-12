@@ -25,7 +25,16 @@ app.get("/api/sessions", function(req:any ,res:any){
 });
 
 app.get("/api/session/latest", function(req:any ,res:any){
-    let query:string = "SELECT * FROM results where sessionId = (SELECT MAX(sessionId) from results) ORDER BY finPos ASC;";
+    let query:string =
+        "SELECT session.finPos, session.carNum, session.name as driverName, session.startPos, session.interval, " +
+        "session.inc, tf.tf totalFunds, ca.cA raceEarnings, tf.driverId from (select r.sessionId, r.finPos, " +
+        "r.carNum, r.startPos, r.interval, r.inc, r.custId, r.name FROM usrc_results.results r where r.sessionId = " +
+        "(SELECT max(sessionId) from session_details)) session inner join (SELECT c.driverId, " +
+        "sum(c.currencyAdjustment) tf, c.sessionId FROM usrc_results.currency c join drivers d on d.driverId = " +
+        "c.driverId group by driverId) tf inner join (select c.driverId, sum(c.currencyAdjustment) ca, c.sessionId " +
+        "FROM usrc_results.currency c where c.sessionId = (SELECT max(sessionId) from session_details) group by " +
+        "c.driverId) ca on tf.driverId = session.custId and ca.driverId = session.custId and " +
+        "ca.sessionId = session.sessionId;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -61,11 +70,9 @@ app.get("/api/currency", function(req:any, res:any){
 
 app.get("/api/currency/:driverId", function (req: any, res: any) {
     let query:string =
-        "SELECT drivers.driverName, currency.* " +
-        "FROM currency " +
-        "LEFT JOIN drivers " +
-        "ON drivers.driverId = currency.driverId " +
-        "where currency.driverId=" + mysql.escape(req.params.driverId) + ";";
+        "SELECT currency.*, sd.startTime, sd.Track track, drivers.driverName FROM currency left join session_details sd " +
+        "on currency.sessionId = sd.sessionId left join drivers on drivers.driverId=currency.driverId" +
+        " where currency.driverId=" + mysql.escape(req.params.driverId) + " order by id desc;";
 
     SQL.selectFromDatabase(req, res, query);
 });

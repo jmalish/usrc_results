@@ -5,6 +5,8 @@ export class Currency {
     public reason: string;
     public currencyAdjustment: number;
     public driverName: string;
+    public track: string;
+    public startTime: string;
 }
 
 export class Driver {
@@ -38,7 +40,6 @@ export class Result {
     public leaguePoints: number;
     public maxFuelFillPerc: number;
     public weightPenaltyKg: number;
-    public totalCurrency: number;
 }
 
 export class SessionDetails {
@@ -56,4 +57,16 @@ export class Standings {
     public driverId: number;
     public driverName: string;
     public driverTotal: number;
+}
+
+export class LatestRace {
+    public finPos: number;
+    public carNum: number;
+    public driverName: string;
+    public startPos: number;
+    public interval: string;
+    public inc: number;
+    public totalFunds: number;
+    public raceEarnings: number;
+    public driverId: number;
 }

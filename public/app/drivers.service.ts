@@ -15,7 +15,7 @@ export class DriverService {
     }
 
     getOneDriver(_driverId) {
-        return this.http.get("http://localhost:3000/api/driver/" + _driverId)
+        return this.http.get("http://localhost:3000/api/currency/" + _driverId)
             .map(res => res.json());
     }
 }
