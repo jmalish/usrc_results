@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 export class StandingsService {
     constructor (private http: Http) {}
 
-    private apiUrl:string = "jordanmalish.com/api/";
+    private apiUrl:string = "http://jordanmalish.com/api/";
 
     getCurrentStandings() {
         return this.http.get(this.apiUrl + "currentStandings")

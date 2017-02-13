@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 export class SessionDetailsService {
     constructor (private http: Http) {}
 
-    private apiUrl:string = "jordanmalish.com/api/";
+    private apiUrl:string = "http://jordanmalish.com/api/";
 
     getSessionDetails() {
         return this.http.get(this.apiUrl + '/sessions')
