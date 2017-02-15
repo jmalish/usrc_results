@@ -1,3 +1,15 @@
+export class apiURL {
+    public isDevBuild: boolean = true;
+
+    public getApiUrl() {
+        if (this.isDevBuild) {
+            return "http://localhost:3000/api//";
+        } else {
+            return "http://jordanmalish.com/api/";
+        }
+    }
+}
+
 export class Currency {
     public id: number;
     public sessionId: number;

@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as Promise from 'bluebird';
 import * as mysql from 'mysql';
 import {SQL} from './sql';
+let secrets:any = require("../../secrets.json");
 
 export module currencyCalc {
     export function calculateCurrency(_drivers: any, _sessionId: number) {
@@ -26,7 +27,7 @@ function newDriverCheck(_drivers:any, _sessionId:number) {
         let i:number = 0;
         Promise.each(_drivers, function (driver:any) {
             let options:any = {
-                host: 'jordanmalish.com',
+                host: secrets.host,
                 path: "/api/driver/" + driver.Cust_ID,
                 method: 'GET'
             };
