@@ -4,6 +4,7 @@ import * as Promise from  'bluebird';
 import {SQL} from './sql';
 import {currencyCalc} from './currency';
 import calculateCurrency = currencyCalc.calculateCurrency;
+let secrets:any = require("../../secrets.json");
 
 export module csvToDb {
     export function csv_to_db(csvFile: any, res:any) {
@@ -39,7 +40,7 @@ export module csvToDb {
 function checkSessionId(sessionId:number) {  // checks to see if this session exists already
     return new Promise(function (resolve) {
         let options:any = {
-            host: 'jordanmalish.com',
+            host: secrets.host,
             path: "/api/session/" + sessionId,
             method: 'GET'
         };

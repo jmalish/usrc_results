@@ -4,7 +4,7 @@ let secrets:any = require("../../secrets.json");
 
 let pool:any = mysql.createPool({
     connectionLimit: 100,
-    host: 'jordanmalish.com',
+    host: secrets.host,
     user: 'usrc_results',
     password: secrets.sql,
     database: 'usrc_results',

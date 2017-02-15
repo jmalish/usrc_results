@@ -12,6 +12,7 @@ import {DriverService} from "./drivers.service";
 })
 export class BonusComponent {
     drivers: Driver[];
+    message: string;
 
     constructor(private driverService:DriverService) {
         this.driverService.getAllDrivers().subscribe(drivers => {

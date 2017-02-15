@@ -8,7 +8,7 @@ import {csvToDb} from './public/js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
 
 let app = express();
-let PORT:number = 80;
+let PORT:number = 3000;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(express.static(__dirname + '/public/'))

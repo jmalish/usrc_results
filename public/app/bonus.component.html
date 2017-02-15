@@ -1,6 +1,8 @@
 <h3>Add Bonus Points</h3>
 
-<form action="/bonus" enctype="multipart/form-data" method="post">
+
+
+<form (ngSubmit)="onSubmit()">
     <div>
         <label for="driverName">Driver Name:</label>
         <select id="driverName" name="driverName" required>
