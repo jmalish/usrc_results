@@ -6,9 +6,10 @@ import * as mysql from 'mysql';
 import {SQL} from './public/js/sql';
 import {csvToDb} from './public/js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
+let secrets = require('./secrets.json');
 
 let app = express();
-let PORT:number = 3000;
+let PORT:number = secrets.port;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(express.static(__dirname + '/public/'))
