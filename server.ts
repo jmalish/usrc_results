@@ -35,7 +35,7 @@ app.get("/api/session/latest", function(req:any ,res:any){
         "c.driverId group by driverId) tf inner join (select c.driverId, sum(c.currencyAdjustment) ca, c.sessionId " +
         "FROM usrc_results.currency c where c.sessionId = (SELECT max(sessionId) from session_details) group by " +
         "c.driverId) ca on tf.driverId = session.custId and ca.driverId = session.custId and " +
-        "ca.sessionId = session.sessionId;";
+        "ca.sessionId = session.sessionId order by finPos;";
 
     SQL.selectFromDatabase(req, res, query);
 });
