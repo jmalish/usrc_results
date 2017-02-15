@@ -3,7 +3,7 @@ export class apiURL {
 
     public getApiUrl() {
         if (this.isDevBuild) {
-            return "http://localhost:3000/api//";
+            return "http://localhost:3000/api/";
         } else {
             return "http://jordanmalish.com/api/";
         }
