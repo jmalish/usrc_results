@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 export class ResultsService {
     constructor (private http: Http) {}
 
-    private apiUrl:string = "jordanmalish.com/api/";
+    private apiUrl:string = "http://jordanmalish.com/api/";
 
     getOneResult(_sessionId) {
         return this.http.get(this.apiUrl + "/result/" + _sessionId)
