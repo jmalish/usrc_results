@@ -18,6 +18,9 @@ export class BonusComponent {
     driverId: number;
     reason: string;
     currencyAdj: number;
+    newDriverId: number;
+    newDriverName: string;
+    newDriverMessage: string;
 
     constructor(private driverService:DriverService, private http: Http) {
         this.driverService.getAllDrivers().subscribe(drivers => {
@@ -33,8 +36,20 @@ export class BonusComponent {
 
         insertUrl = insertUrl.replace(/ /g, '_');
 
-        this.http.get(insertUrl).subscribe(x => console.log(x))
+        this.http.get(insertUrl).subscribe(x => console.log(x));
 
         this.message = this.driverId + " | $" + this.currencyAdj + " for " + this.reason + " added.";
+    }
+
+    submitNewDriver() {
+        let insertUrl = this.apiUrl + "insert/newDriver/" +
+            this.newDriverId + "/" +
+            this.newDriverName;
+
+        insertUrl = insertUrl.replace(/ /g, '_');
+
+        this.http.get(insertUrl).subscribe(x => console.log(x));
+
+        this.newDriverMessage = this.newDriverName + " added.";
     }
 }

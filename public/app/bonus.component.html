@@ -25,3 +25,17 @@
 <hr/>
 
 <h3>Add new driver</h3>
+
+<p *ngIf="newDriverMessage">{{newDriverMessage}}</p>
+
+<form (ngSubmit)="submitNewDriver()">
+    <div class="input">
+        <label for="newDriverId">Driver ID:</label>
+        <input id="newDriverId" type="number" required [(ngModel)]="newDriverId" [ngModelOptions]="{standalone: true}">
+    </div>
+    <div class="input">
+        <label for="newDriverName">Driver Name:</label>
+        <input id="newDriverName" type="text" required [(ngModel)]="newDriverName" [ngModelOptions]="{standalone: true}">
+    </div>
+    <input type="submit" value="Submit" class="input">
+</form>

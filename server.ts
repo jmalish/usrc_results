@@ -6,6 +6,8 @@ import * as mysql from 'mysql';
 import {SQL} from './public/js/sql';
 import {csvToDb} from './public/js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
+import {currencyCalc} from './public/js/currency';
+
 let secrets = require('./secrets.json');
 
 let app = express();
@@ -129,12 +131,18 @@ app.get("/api/insert/bonus/:driverId/:reason/:currencyAdj", function (req: any, 
     SQL.insertIntoDatabase(query);
 });
 
+app.get("/api/insert/newDriver/:driverId/:driverName", function (req: any, res: any) {
+    let newName = (req.params.driverName).replace(/_/g, ' ');
+
+    currencyCalc.addNewDriver(newName, req.params.driverId);
+});
+
 app.get("/api/*", function (req: any, res: any) {
     res.json({"code": 404, "status": "No endpoint"});
 });
 // </editor-fold desc="api pages">
 
-// </editor-fold desc="Front end pages>
+// <editor-fold desc="Front end pages>
 // app.get('/', function(req:any, res:any) {
 //     // res.sendFile('index.html', { root: __dirname + "/public/" });
 //
