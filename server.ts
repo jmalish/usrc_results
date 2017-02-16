@@ -74,7 +74,7 @@ app.get("/api/currency/:driverId", function (req: any, res: any) {
     let query:string =
         "SELECT currency.*, sd.startTime, sd.Track track, drivers.driverName FROM currency left join session_details sd " +
         "on currency.sessionId = sd.sessionId left join drivers on drivers.driverId=currency.driverId" +
-        " where currency.driverId=" + mysql.escape(req.params.driverId) + " order by id desc;";
+        " where currency.driverId=" + mysql.escape(req.params.driverId) + " order by sessionId desc, id desc;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -88,7 +88,7 @@ app.get("/api/currencyEarned/:driverId/:sessionId", function (req: any, res: any
 });
 
 app.get("/api/drivers", function (req: any, res: any) {
-    let query:string = "SELECT * FROM drivers;";
+    let query:string = "SELECT * FROM drivers ORDER BY driverName;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -113,6 +113,20 @@ app.get("/api/currentStandings", function (req: any, res: any) {
         "ORDER BY driverTotal desc, driverName desc;";
 
     SQL.selectFromDatabase(req, res, query);
+});
+
+app.get("/api/insert/bonus/:driverId/:reason/:currencyAdj", function (req: any, res: any) {
+    let newReason = (req.params.reason).replace(/_/g, ' ');
+
+    let query:string = "INSERT INTO `usrc_results`.`currency`" +
+        "(`sessionId`, `driverId`, `reason`, `currencyAdjustment`) VALUES " +
+        "('1', " +  // just going to use session ID of 1 to denote manually added bonus points
+        mysql.escape(req.params.driverId) + ", " +
+        mysql.escape(newReason) + ", " +
+        mysql.escape(req.params.currencyAdj) + ");";
+
+
+    SQL.insertIntoDatabase(query);
 });
 
 app.get("/api/*", function (req: any, res: any) {
@@ -167,12 +181,6 @@ app.post('/upload', function (req:any, res:any){
             console.log('File does not have a valid file name.');
         }
     });
-});
-
-app.post('/bonus', function (req:any, res:any){
-    console.log(req.body.adjustmentAmt);
-
-    res.redirect('/bonus');
 });
 
 app.get('*', function(req:any, res:any) {
