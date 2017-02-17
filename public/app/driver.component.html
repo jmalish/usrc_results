@@ -10,13 +10,13 @@
     <tr>
         <td></td>
         <td></td>
-        <td>Current Total:</td>
-        <td>{{total}}</td>
+        <td style="font-weight: bold; text-align: right">Current Total:</td>
+        <td style="font-weight: bold;">{{total | currency:'USD':true}}</td>
     </tr>
     <tr *ngFor="let currency of currencies">
         <td>{{currency.startTime | date}}</td>
-        <td>{{currency.track}}</td>
+        <td><a [routerLink]="['/races', currency.sessionId]">{{currency.track}}</a></td>
         <td>{{currency.reason}}</td>
-        <td>{{currency.currencyAdjustment}}</td>
+        <td [class.negative]="currency.currencyAdjustment < 0">{{currency.currencyAdjustment | currency:'USD':true}}</td>
     </tr>
 </table>
