@@ -31,3 +31,15 @@ nav a {
     margin-left: 10px;
     color: #2A5DB0;
 }
+
+table, th, td, tr {
+    border: solid 1px black;
+}
+
+th, td {
+    padding:5px;
+}
+
+tr:nth-child(odd){
+    background-color: #f2f2f2;
+}

@@ -2,7 +2,6 @@ import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Currency} from "./myClasses";
 import {ActivatedRoute} from "@angular/router";
 import {DriverService} from "./drivers.service";
-import {Observable} from "rxjs";
 
 
 @Component({

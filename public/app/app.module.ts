@@ -8,8 +8,8 @@ import {CurrencyComponent} from "./currency.component";
 import {routing} from "./app.routing";
 import {UploadComponent} from "./upload.component";
 import {LatestRaceComponent} from "./latestRace.component";
-import {SessionDetailsComponent} from "./sessionDetails.component";
-import {ResultsComponent} from "./results.component";
+import {RacesComponent} from "./races.component";
+import {SingleRaceComponent} from "./singleRace.component";
 import {DriversComponent} from "./drivers.component";
 import {DriverComponent} from "./driver.component";
 import {StandingsComponent} from "./standings.component";
@@ -27,8 +27,8 @@ import {BonusComponent} from "./bonus.component";
         CurrencyComponent,
         UploadComponent,
         LatestRaceComponent,
-        SessionDetailsComponent,
-        ResultsComponent,
+        RacesComponent,
+        SingleRaceComponent,
         DriversComponent,
         DriverComponent,
         StandingsComponent,
