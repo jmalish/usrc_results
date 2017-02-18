@@ -50,7 +50,15 @@ app.get("/api/session/:sessionId", function(req:any ,res:any){
 });
 
 app.get("/api/result/:sessionId", function(req:any, res:any){
-    let query:string = "SELECT * FROM results where sessionId = " + mysql.escape(req.params.sessionId) + "ORDER BY finPos ASC;";
+    let query:string = "SELECT session.finPos, session.carNum, session.name as driverName, session.startPos, " +
+        "session.interval, session.inc, tf.tf totalFunds, ca.cA raceEarnings, tf.driverId FROM (SELECT " +
+        "r.sessionId, r.finPos, r.carNum, r.startPos, r.interval, r.inc, r.custId, r.name FROM usrc_results.results " +
+        "r where r.sessionId = " + mysql.escape(req.params.sessionId) + ") session inner join (SELECT c.driverId, " +
+        "sum(c.currencyAdjustment) tf, c.sessionId FROM usrc_results.currency c join drivers d on d.driverId " +
+        "= c.driverId group by driverId) tf inner join (SELECT c.driverId, sum(c.currencyAdjustment) ca, " +
+        "c.sessionId FROM usrc_results.currency c where c.sessionId = (SELECT max(sessionId) FROM session_details) " +
+        "group by c.driverId) ca on tf.driverId = session.custId and ca.driverId = session.custId and ca.sessionId " +
+        "= session.sessionId order by finPos;";
 
     SQL.selectFromDatabase(req, res, query);
 });
