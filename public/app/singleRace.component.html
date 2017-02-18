@@ -15,7 +15,7 @@
         <tr *ngFor="let result of raceResults">
             <td>{{result.finPos}}</td>
             <td>{{result.carNum}}</td>
-            <td><a [routerLink]="['/drivers', result.custId]">{{result.name}}</a></td>
+            <td><a [routerLink]="['/drivers', result.driverId]">{{result.driverName}}</a></td>
             <td>{{result.startPos}}</td>
             <td>{{result.interval}}</td>
             <td>{{result.inc}}</td>
