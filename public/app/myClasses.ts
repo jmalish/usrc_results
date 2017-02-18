@@ -1,3 +1,15 @@
+export class apiURL {
+    public isDevBuild: boolean = true;
+
+    public getApiUrl() {
+        if (this.isDevBuild) {
+            return "http://localhost:3000/api/";
+        } else {
+            return "http://jordanmalish.com/api/";
+        }
+    }
+}
+
 export class Currency {
     public id: number;
     public sessionId: number;
@@ -14,7 +26,7 @@ export class Driver {
     public driverName: string;
 }
 
-export class Result {
+export class RaceResult {
     public id: number;
     public sessionId: number;
     public finPos: number;
@@ -42,7 +54,7 @@ export class Result {
     public weightPenaltyKg: number;
 }
 
-export class SessionDetails {
+export class raceDetails {
     id: number;
     sessionId: string;
     startTime: string;

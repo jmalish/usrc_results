@@ -1,19 +1,19 @@
 import {Component} from "@angular/core";
 import {LatestRace} from "./myClasses";
-import {ResultsService} from "./results.service";
+import {RacesService} from "./races.service";
 
 @Component({
     moduleId: module.id,
     selector: 'sessions',
     templateUrl: 'latestRace.component.html',
-    styleUrls: ['latestRace.component.css'],
-    providers: [ResultsService]
+    styleUrls: [],
+    providers: [RacesService]
 })
 export class LatestRaceComponent {
     results: LatestRace[];
 
-    constructor(private resultsService:ResultsService) {
-        this.resultsService.getLatestResult().subscribe(latestRace => {
+    constructor(private resultsService:RacesService) {
+        this.resultsService.getLatestRace().subscribe(latestRace => {
             this.results = latestRace;
         });
     }

@@ -1,10 +1,10 @@
-import {NgModule, ModuleWithProviders} from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {ModuleWithProviders} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {CurrencyComponent} from "./currency.component";
 import {UploadComponent} from "./upload.component";
 import {LatestRaceComponent} from "./latestRace.component";
-import {SessionDetailsComponent} from "./sessionDetails.component";
-import {ResultsComponent} from "./results.component";
+import {RacesComponent} from "./races.component";
+import {SingleRaceComponent} from "./singleRace.component";
 import {DriversComponent} from "./drivers.component";
 import {DriverComponent} from "./driver.component";
 import {StandingsComponent} from "./standings.component";
@@ -33,12 +33,12 @@ const routes:Routes = [
         component: BonusComponent
     },
     {
-        path: 'results',
-        component: SessionDetailsComponent
+        path: 'races',
+        component: RacesComponent
     },
     {
-        path: 'results/:sessionId',
-        component: ResultsComponent
+        path: 'races/:sessionId',
+        component: SingleRaceComponent
     },
     {
         path: 'drivers',

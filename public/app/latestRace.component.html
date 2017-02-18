@@ -16,9 +16,10 @@
         <td>{{result.carNum}}</td>
         <td><a [routerLink]="['/drivers', result.driverId]">{{result.driverName}}</a></td>
         <td>{{result.startPos}}</td>
-        <td>{{result.interval}}</td>
+        <td *ngIf="result.interval === '-00.000'" style="text-align: center;;">--</td>
+        <td *ngIf="result.interval != '-00.000'">{{result.interval}}</td>
         <td>{{result.inc}}</td>
-        <td>{{result.raceEarnings}}</td>
-        <td>{{result.totalFunds}}</td>
+        <td [class.negative]="result.raceEarnings < 0">{{result.raceEarnings | currency:'USD':true}}</td>
+        <td>{{result.totalFunds | currency:'USD':true}}</td>
     </tr>
 </table>

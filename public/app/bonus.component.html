@@ -1,20 +1,41 @@
 <h3>Add Bonus Points</h3>
 
-<form action="/bonus" enctype="multipart/form-data" method="post">
-    <div>
+<form (ngSubmit)="submitBonus()">
+    <p *ngIf="message">{{message}}</p>
+
+    <div class="input">
         <label for="driverName">Driver Name:</label>
-        <select id="driverName" name="driverName" required>
-            <option *ngFor="let driver of drivers" value="{{driver.driverId}}">{{driver.driverName}}</option>
+        <select id="driverName" name="driverName" required [(ngModel)]="driverId">
+            <option *ngFor="let driver of drivers" value="{{driver.driverId}}">
+                {{driver.driverName}} - {{driver.driverId}}
+            </option>
         </select>
     </div>
-    <div>
+    <div class="input">
         <label for="reason">Reason:</label>
-        <input id="reason" name="reason" type="text" required>
+        <input id="reason" name="reason" type="text" required [(ngModel)]="reason" [ngModelOptions]="{standalone: true}">
     </div>
-    <div>
+    <div class="input">
         <label for="adjustmentAmt">Currency adjustment:</label>
-        <input id="adjustmentAmt" name="adjustmentAmt" type="number" value="0" required>
+        <input id="adjustmentAmt" name="adjustmentAmt" type="number" value="0" required [(ngModel)]="currencyAdj">
     </div>
-    <input type="number" value="1" hidden>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="input">
+</form>
+
+<hr/>
+
+<h3>Add new driver</h3>
+
+<p *ngIf="newDriverMessage">{{newDriverMessage}}</p>
+
+<form (ngSubmit)="submitNewDriver()">
+    <div class="input">
+        <label for="newDriverId">Driver ID:</label>
+        <input id="newDriverId" type="number" required [(ngModel)]="newDriverId" [ngModelOptions]="{standalone: true}">
+    </div>
+    <div class="input">
+        <label for="newDriverName">Driver Name:</label>
+        <input id="newDriverName" type="text" required [(ngModel)]="newDriverName" [ngModelOptions]="{standalone: true}">
+    </div>
+    <input type="submit" value="Submit" class="input">
 </form>

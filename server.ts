@@ -6,9 +6,12 @@ import * as mysql from 'mysql';
 import {SQL} from './public/js/sql';
 import {csvToDb} from './public/js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
+import {currencyCalc} from './public/js/currency';
+
+let secrets = require('./secrets.json');
 
 let app = express();
-let PORT:number = 80;
+let PORT:number = secrets.port;
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(express.static(__dirname + '/public/'))
@@ -73,7 +76,7 @@ app.get("/api/currency/:driverId", function (req: any, res: any) {
     let query:string =
         "SELECT currency.*, sd.startTime, sd.Track track, drivers.driverName FROM currency left join session_details sd " +
         "on currency.sessionId = sd.sessionId left join drivers on drivers.driverId=currency.driverId" +
-        " where currency.driverId=" + mysql.escape(req.params.driverId) + " order by id desc;";
+        " where currency.driverId=" + mysql.escape(req.params.driverId) + " order by sessionId desc, id desc;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -87,7 +90,7 @@ app.get("/api/currencyEarned/:driverId/:sessionId", function (req: any, res: any
 });
 
 app.get("/api/drivers", function (req: any, res: any) {
-    let query:string = "SELECT * FROM drivers;";
+    let query:string = "SELECT * FROM drivers ORDER BY driverName;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -114,12 +117,32 @@ app.get("/api/currentStandings", function (req: any, res: any) {
     SQL.selectFromDatabase(req, res, query);
 });
 
+app.get("/api/insert/bonus/:driverId/:reason/:currencyAdj", function (req: any, res: any) {
+    let newReason = (req.params.reason).replace(/_/g, ' ');
+
+    let query:string = "INSERT INTO `usrc_results`.`currency`" +
+        "(`sessionId`, `driverId`, `reason`, `currencyAdjustment`) VALUES " +
+        "('1', " +  // just going to use session ID of 1 to denote manually added bonus points
+        mysql.escape(req.params.driverId) + ", " +
+        mysql.escape(newReason) + ", " +
+        mysql.escape(req.params.currencyAdj) + ");";
+
+
+    SQL.insertIntoDatabase(query);
+});
+
+app.get("/api/insert/newDriver/:driverId/:driverName", function (req: any, res: any) {
+    let newName = (req.params.driverName).replace(/_/g, ' ');
+
+    currencyCalc.addNewDriver(newName, req.params.driverId);
+});
+
 app.get("/api/*", function (req: any, res: any) {
     res.json({"code": 404, "status": "No endpoint"});
 });
 // </editor-fold desc="api pages">
 
-// </editor-fold desc="Front end pages>
+// <editor-fold desc="Front end pages>
 // app.get('/', function(req:any, res:any) {
 //     // res.sendFile('index.html', { root: __dirname + "/public/" });
 //
@@ -166,12 +189,6 @@ app.post('/upload', function (req:any, res:any){
             console.log('File does not have a valid file name.');
         }
     });
-});
-
-app.post('/bonus', function (req:any, res:any){
-    console.log(req.body.adjustmentAmt);
-
-    res.redirect('/bonus');
 });
 
 app.get('*', function(req:any, res:any) {

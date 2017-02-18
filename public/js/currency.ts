@@ -2,11 +2,12 @@ import * as http from 'http';
 import * as Promise from 'bluebird';
 import * as mysql from 'mysql';
 import {SQL} from './sql';
+let secrets:any = require("../../secrets.json");
 
 export module currencyCalc {
     export function calculateCurrency(_drivers: any, _sessionId: number) {
         return new Promise(function (resolve) {
-            newDriverCheck(_drivers, _sessionId)
+            newDriverCheck(_drivers)
                 .then(function () {
                     Promise.each(_drivers, function (driver: any) {
                         finishPosCalculation(driver, _sessionId);
@@ -18,15 +19,39 @@ export module currencyCalc {
             });
         });
     }
+
+    export function addNewDriver(_driverName: string, _driverId: number) {
+        return new Promise(function (resolve) {
+            let newDriver = new Driver(_driverName, _driverId);
+            let driver:Driver[] = [];
+
+            driver.push(newDriver);
+
+            newDriverCheck(driver)
+                .then(function () {
+                    resolve();
+                });
+        });
+    }
+}
+
+class Driver {
+    Name: string;
+    Cust_ID: number;
+
+    constructor(_name: string, _id: number) {
+        this.Name = _name;
+        this.Cust_ID = _id;
+    }
 }
 
 
-function newDriverCheck(_drivers:any, _sessionId:number) {
+function newDriverCheck(_drivers:any) {
     return new Promise(function (resolve:any) {
         let i:number = 0;
         Promise.each(_drivers, function (driver:any) {
             let options:any = {
-                host: 'jordanmalish.com',
+                host: secrets.host,
                 path: "/api/driver/" + driver.Cust_ID,
                 method: 'GET'
             };
