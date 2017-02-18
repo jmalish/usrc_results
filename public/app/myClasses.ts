@@ -1,5 +1,5 @@
 export class apiURL {
-    public isDevBuild: boolean = false;
+    public isDevBuild: boolean = false; //
 
     public getApiUrl() {
         if (this.isDevBuild) {
