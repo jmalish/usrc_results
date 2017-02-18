@@ -1,24 +1,26 @@
-<h3>Results</h3>
+<div class="col-md-5">
+    <h1 class="section-title">Results</h1>
 
-<table border="1">
-    <tr>
-        <th>Pos</th>
-        <th>Car #</th>
-        <th>Driver</th>
-        <th>Start<br/>Pos.</th>
-        <th>Interval</th>
-        <th>Inc</th>
-        <th>Race<br/>Earnings</th>
-        <th>Total<br/>Funds</th>
-    </tr>
-    <tr *ngFor="let result of raceResults">
-        <td>{{result.finPos}}</td>
-        <td>{{result.carNum}}</td>
-        <td><a [routerLink]="['/drivers', result.custId]">{{result.name}}</a></td>
-        <td>{{result.startPos}}</td>
-        <td>{{result.interval}}</td>
-        <td>{{result.inc}}</td>
-        <td>{{result.raceEarnings}}</td>
-        <td>{{result.totalFunds}}</td>
-    </tr>
-</table>
+    <table class="table table-striped">
+        <tr>
+            <th>Pos</th>
+            <th>Car #</th>
+            <th>Driver</th>
+            <th>Start<br/>Pos.</th>
+            <th>Interval</th>
+            <th>Inc</th>
+            <th>Race<br/>Earnings</th>
+            <th>Total<br/>Funds</th>
+        </tr>
+        <tr *ngFor="let result of raceResults">
+            <td>{{result.finPos}}</td>
+            <td>{{result.carNum}}</td>
+            <td><a [routerLink]="['/drivers', result.custId]">{{result.name}}</a></td>
+            <td>{{result.startPos}}</td>
+            <td>{{result.interval}}</td>
+            <td>{{result.inc}}</td>
+            <td>{{result.raceEarnings}}</td>
+            <td>{{result.totalFunds}}</td>
+        </tr>
+    </table>
+</div>
