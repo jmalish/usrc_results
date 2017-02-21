@@ -19,10 +19,10 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(bodyParser.json(null));
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-app.post("/api/upload", function (req: any, res: any) {
-    console.log(req.body);
-    res.json({'message': 'This is a response message!'});
-});
+// app.post("/api/upload", function (req: any, res: any) {
+//     console.log(req.body);
+//     res.json({'message': 'This is a response message!'});
+// });
 
 // <editor-fold desc="api pages">
 app.get("/api/sessions", function(req:any ,res:any){
@@ -160,6 +160,10 @@ app.get("/api/*", function (req: any, res: any) {
 //     // This app.get literally does nothing, and I don't know why
 //     // I've fixed it by redirecting in angular, but still...
 // });
+
+app.get('/upload', function (req: any, res:any) {
+    res.sendFile('upload.html', { root: __dirname + "/public/" });
+});
 
 app.post('/upload', function (req:any, res:any){
     let form:any = new formidable.IncomingForm();

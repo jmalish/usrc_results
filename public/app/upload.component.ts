@@ -42,6 +42,7 @@ export class UploadComponent {
     fileUploadButton() {
         let formData: FormData = new FormData();
         formData.append('uploadFile', this.file, this.file.name);
+        formData.append('test', 'more test', 'even more test');
 
         let headers = new Headers();
         headers.append('Content-Type', 'multipart/form-data');
