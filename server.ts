@@ -20,7 +20,8 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post("/api/upload", function (req: any, res: any) {
-    console.log(req);
+    console.log(req.body);
+    res.json({'message': 'This is a response message!'});
 });
 
 // <editor-fold desc="api pages">

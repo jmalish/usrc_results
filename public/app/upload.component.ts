@@ -32,24 +32,29 @@ export class UploadComponent {
                 this.message = null;
             } else {
                 this.disableButton = true;
-                this.message = "File name does not match! Make sure it is similar to 'eventresult_12345678.csv'"
+                this.message = "File name is not valid! Make sure it is similar to 'eventresult_12345678.csv'";
             }
+        } else {
+            this.disableButton = true;
         }
     }
 
     fileUploadButton() {
         let formData: FormData = new FormData();
-        formData.append('fileUpload', this.file, this.file.name);
+        formData.append('uploadFile', this.file, this.file.name);
 
         let headers = new Headers();
+        headers.append('Content-Type', 'multipart/form-data');
         headers.append('Accept', 'application/json');
         let options = new RequestOptions({ headers: headers });
         this.http.post('/api/upload', formData, options)
+            .map(res => res.json())
             .subscribe(
-                data => console.log('success'),
+                data => this.message = data.message,
                 error => console.log(error)
             );
 
-        this.disableButton = true;
+        console.log(formData);
+        // this.disableButton = true;
     }
 }
