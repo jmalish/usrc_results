@@ -2,9 +2,13 @@
 
 <p class="bg-danger">Make sure not to edit the file in any way before uploading, this includes changing the file name!</p>
 
+<p *ngIf="message" class="bg-danger">{{message}}</p>
+
 <form action="/upload" enctype="multipart/form-data" method="post">
     <div class="form-group">
-        <input class="uploadForm" type="file" name="upload" accept=".csv" required><br/>
-        <input type="submit" value="Upload" class="btn btn-default">
+        <input class="uploadForm" type="file" name="upload" accept=".csv" required
+               (change)="fileChange($event)" #fileInput>
+        <br/>
+        <button (click)="fileUploadButton()" class="btn btn-default" [disabled]="(disableButton)">Upload</button>
     </div>
 </form>

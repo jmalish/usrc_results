@@ -19,7 +19,9 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(bodyParser.json(null));
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+app.post("/api/upload", function (req: any, res: any) {
+    console.log(req);
+});
 
 // <editor-fold desc="api pages">
 app.get("/api/sessions", function(req:any ,res:any){
