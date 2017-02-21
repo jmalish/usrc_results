@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>USRC Results</title>
+
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Bootstrap css link-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!--my css page-->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/favicon.ico" type="image/gif" sizes="any">
+</head>
+
+<body>
+    <h1 class="section-title">Upload new race:</h1>
+
+    <p class="bg-danger">Make sure not to edit the file in any way before uploading, this includes changing the file name!</p>
+
+    <form action="/upload" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <input class="uploadForm" type="file" name="upload" accept=".csv" required>
+            <br/>
+            <input type="submit" value="Upload File">
+        </div>
+    </form>
+</body>
+</html>

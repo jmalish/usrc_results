@@ -4,7 +4,10 @@
 
 <form action="/upload" enctype="multipart/form-data" method="post">
     <div class="form-group">
-        <input class="uploadForm" type="file" name="upload" accept=".csv" required><br/>
-        <input type="submit" value="Upload" class="btn btn-default">
+        <input class="uploadForm" type="file" name="upload" accept=".csv" required
+               (change)="fileChange($event)" #fileInput>
+        <br/>
+        <p *ngIf="message" class="bg-warning">{{message}}</p>
+        <button (click)="fileUploadButton()" class="btn btn-default" [disabled]="(disableButton)">Upload</button>
     </div>
 </form>

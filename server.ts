@@ -19,7 +19,10 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'))
     .use(bodyParser.json(null));
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+// app.post("/api/upload", function (req: any, res: any) {
+//     console.log(req.body);
+//     res.json({'message': 'This is a response message!'});
+// });
 
 // <editor-fold desc="api pages">
 app.get("/api/sessions", function(req:any ,res:any){
@@ -50,15 +53,15 @@ app.get("/api/session/:sessionId", function(req:any ,res:any){
 });
 
 app.get("/api/result/:sessionId", function(req:any, res:any){
-    let query:string = "SELECT session.finPos, session.carNum, session.name as driverName, session.startPos, " +
-        "session.interval, session.inc, tf.tf totalFunds, ca.cA raceEarnings, tf.driverId FROM (SELECT " +
-        "r.sessionId, r.finPos, r.carNum, r.startPos, r.interval, r.inc, r.custId, r.name FROM usrc_results.results " +
-        "r where r.sessionId = " + mysql.escape(req.params.sessionId) + ") session inner join (SELECT c.driverId, " +
+    let query:string = " SELECT session.finPos, session.carNum, session.name as driverName, session.startPos, " +
+        "session.interval, session.inc, tf.tf totalFunds, ca.cA raceEarnings, tf.driverId FROM (SELECT r.sessionId, " +
+        "r.finPos, r.carNum, r.startPos, r.interval, r.inc, r.custId, r.name FROM usrc_results.results r where " +
+        "r.sessionId = " + mysql.escape(req.params.sessionId) + ") session inner join (SELECT c.driverId, " +
         "sum(c.currencyAdjustment) tf, c.sessionId FROM usrc_results.currency c join drivers d on d.driverId " +
         "= c.driverId group by driverId) tf inner join (SELECT c.driverId, sum(c.currencyAdjustment) ca, " +
-        "c.sessionId FROM usrc_results.currency c where c.sessionId = (SELECT max(sessionId) FROM session_details) " +
-        "group by c.driverId) ca on tf.driverId = session.custId and ca.driverId = session.custId and ca.sessionId " +
-        "= session.sessionId order by finPos;";
+        "c.sessionId FROM usrc_results.currency c where c.sessionId = (" + mysql.escape(req.params.sessionId) +
+        ") group by c.driverId) ca on tf.driverId = session.custId and ca.driverId = session.custId and " +
+        "ca.sessionId = session.sessionId order by finPos;";
 
     SQL.selectFromDatabase(req, res, query);
 });
@@ -157,6 +160,10 @@ app.get("/api/*", function (req: any, res: any) {
 //     // This app.get literally does nothing, and I don't know why
 //     // I've fixed it by redirecting in angular, but still...
 // });
+
+app.get('/upload', function (req: any, res:any) {
+    res.sendFile('upload.html', { root: __dirname + "/public/" });
+});
 
 app.post('/upload', function (req:any, res:any){
     let form:any = new formidable.IncomingForm();
