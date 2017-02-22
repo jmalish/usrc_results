@@ -2,29 +2,6 @@ body {
     background-color: #fdfdfd;
 }
 
-.header {
-    height: 150px;
-}
-
-.title {
-    margin-top: 10px;
-    font-size: 55px;
-    font-weight: bold;
-}
-
-.header-container {
-    float: left;
-}
-
-.header-image {
-    float: right;
-    margin-top: 15px;
-}
-
-.nav-bar {
-
-}
-
 .content {
     width: 98%;
     margin: auto;
