@@ -19,8 +19,8 @@
             <td>{{result.startPos}}</td>
             <td>{{result.interval}}</td>
             <td>{{result.inc}}</td>
-            <td>{{result.raceEarnings}}</td>
-            <td>{{result.totalFunds}}</td>
+            <td>{{result.raceEarnings | currency:'USD':true}}</td>
+            <td>{{result.totalFunds | currency:'USD':true}}</td>
         </tr>
     </table>
 </div>
