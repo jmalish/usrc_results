@@ -1,5 +1,5 @@
 import {Component, enableProdMode} from '@angular/core';
-import {apiURL} from "./myClasses";
+import {apiURL, User} from "./myClasses";
 import {AuthService} from "./auth.service";
 
 let isDevMode:boolean = new apiURL().isDevBuild;
@@ -12,13 +12,14 @@ if (!isDevMode) {
     moduleId: module.id,
     selector: 'my-app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.css'],
+    styleUrls: [],
     providers: [AuthService]
 })
 export class AppComponent  {
     userLoggedIn: boolean;
-    userProfile: Object;
+    userProfile: User;
     userEmail: string;
+    userPower: number;
 
     constructor(private auth: AuthService) {
         this.userProfile = JSON.parse(localStorage.getItem('profile'));
@@ -28,12 +29,8 @@ export class AppComponent  {
         } else {
             this.userLoggedIn = true;
             this.userEmail = this.userProfile.email;
+            this.userPower = this.userProfile.power;
         }
-
-
-        console.log(this.userEmail);
-
-        console.log(this.userLoggedIn);
     }
 
     login() {
@@ -41,6 +38,5 @@ export class AppComponent  {
     }
     logout() {
         this.auth.logout();
-        location.reload();
     }
 }
