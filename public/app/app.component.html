@@ -1,17 +1,14 @@
 <div class="header">
-    <div class="header-right">
-        <div class="header-image">
-            <a href="http://members.iracing.com/membersite/member/LeagueView.do?league=1000">
-                <img src="/images/usrc_logo.png" height="125px" width="auto">
-            </a>
-        </div>
-
         <div class="login">
             <ul class="nav nav-pills">
                 <li *ngIf="!userLoggedIn" class="active"><a (click)="login()">Login</a></li>
                 <li *ngIf="userLoggedIn" class="active"><p>Welcome back {{userEmail}}</p><a (click)="logout()">Logout</a></li>
             </ul>
         </div>
+    <div class="header-image">
+        <a href="http://members.iracing.com/membersite/member/LeagueView.do?league=1000">
+            <img src="/public/app/assets/images/usrc_logo.png" height="125px" width="auto">
+      </a>
     </div>
 
     <div class="header-container">
