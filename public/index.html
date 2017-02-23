@@ -3,7 +3,8 @@
 <head>
     <title>USRC Results</title>
 
-    <base href="/">
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <!--<base href="/">-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,18 +15,21 @@
 
     <!--my css page-->
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="images/favicon.ico" type="image/gif" sizes="any">
+    <link rel="icon" href="app/assets/images/favicon.ico" type="image/gif" sizes="any">
 
-    <!-- Polyfill(s) for older browsers -->
-    <script src="../node_modules/core-js/client/shim.min.js"></script>
+    <!-- Core systemJS / shim / etc files -->
+    <script src="bundle/core-deps.js"></script>
 
-    <!--node modules-->
-    <script src="../node_modules/zone.js/dist/zone.js"></script>
-    <script src="../node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="../node_modules/systemjs/dist/system.src.js"></script>
-
-    <!--actual angular program-->
+    <!-- This file tells SystemJS how to load stuff. If there's a depenency or app file, it goes there
+    before pulling files individually. -->
     <script src="systemjs.config.js"></script>
+
+    <!-- This file contains all of the node dependencies your app uses (angular, etc) -->
+    <script src="bundle/dependencies.js"></script>
+
+    <!-- Uncomment this line to use bundled application files -->
+    <!--<script src="bundle/app.js"></script>-->
+
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
