@@ -82,3 +82,8 @@ export class LatestRace {
     public raceEarnings: number;
     public driverId: number;
 }
+
+export class User {
+    public email: string;
+    public power: number;
+}

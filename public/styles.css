@@ -2,6 +2,20 @@ body {
     background-color: #fdfdfd;
 }
 
+.content {
+    width: 98%;
+    margin: auto;
+}
+
+.section-title {
+    margin-top: 0;
+}
+
+.bg-danger, .bg-warning {
+    padding: 10px;
+    font-weight: bold;
+}
+
 .header {
     height: 150px;
 }
@@ -25,16 +39,24 @@ body {
 
 }
 
-.content {
-    width: 98%;
-    margin: auto;
-}
-
-.section-title {
-    margin-top: 0;
-}
-
-.bg-danger, .bg-warning {
-    padding: 10px;
+.nav a {
+    font-size: 18px;
     font-weight: bold;
+}
+
+.login {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.login ul li a {
+    font-size: 12px;
+    width: 70px;
+    float: right;
+    text-align: center;
+}
+
+.login ul li a:hover {
+    cursor: pointer;
 }
