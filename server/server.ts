@@ -3,12 +3,12 @@ import * as express from "express";
 import * as bodyParser from 'body-parser';
 import * as formidable from 'formidable';
 import * as mysql from 'mysql';
-import {SQL} from './public/js/sql';
-import {csvToDb} from './public/js/csv-to-db';
+import {SQL} from './js/sql';
+import {csvToDb} from './js/csv-to-db';
 import myCsvToDb = csvToDb.csv_to_db;
-import {currencyCalc} from './public/js/currency';
+import {currencyCalc} from './js/currency';
 
-let secrets = require('./secrets.json');
+let secrets = require('./../secrets.json');
 
 let app = express();
 let PORT:number = secrets.port;

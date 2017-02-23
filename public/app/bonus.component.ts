@@ -13,16 +13,16 @@ import {Http, Response, RequestOptions, Headers} from '@angular/http';
 export class BonusComponent {
     apiUrl = new apiURL().getApiUrl();
 
-    drivers: Driver[];
-    message: string;
-    driverId: number;
-    reason: string;
-    currencyAdj: number;
-    newDriverId: number;
-    newDriverName: string;
-    newDriverMessage: string;
+    drivers:Driver[];
+    message:string;
+    driverId:number;
+    reason:string;
+    currencyAdj:number;
+    newDriverId:number;
+    newDriverName:string;
+    newDriverMessage:string;
 
-    constructor(private driverService:DriverService, private http: Http) {
+    constructor(private driverService:DriverService, private http:Http) {
         this.driverService.getAllDrivers().subscribe(drivers => {
             this.drivers = drivers;
         });
